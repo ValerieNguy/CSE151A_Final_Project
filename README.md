@@ -1,3 +1,1 @@
-# CSE151_Final_Projecct
-
-Valerie is cooking
+# CSE151A_Final_Project
