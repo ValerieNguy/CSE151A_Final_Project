@@ -31,15 +31,15 @@ Looking into data distribution details, we noticed potential outliers in trip_di
 
 ## Data Preprocessing
 
-Our dataset, sourced from Kaggle, has already had an initial cleaning by the author, which includes standard formatting and handling missing values. However, to fully optimize the data and improve the accuracy of our predictive model, additional preprocessing steps are necessary. These steps will address any remaining inconsistencies, such as null data and outliers (e.g., negative values in `fare_amount` and `trip_distance`), which may still be present.
+Since we got our dataset directly from Kaggle, the dataset we are using has already had an initial cleaning by the author, which includes standard formatting and handling missing or null values. However, to fully optimize the data and improve the accuracy of our predictive model, we are planning to add some more preprocessing steps are helpful towards our model. These following steps will be taken to get rid of any remaining inconsistencies, such as any missing or null datas and outliers (e.g., negative values in `fare_amount` and `trip_distance`).
 
 ### Planned Preprocessing Steps
 
 1. **Handling Missing or Null Values**:  
-   We will examine each column for any remaining miss or null values and determine an appropriate strategy to address them. Depending on the feature, we may choose to drop rows with null values.
+   We have already found out that we have around 300,000 null datas out of 6.5 million datas  and our goal is to examine each column for any remaining miss or null values and determine an appropriate strategy to address them. Depending on the feature, we are planning to choose to drop rows with null values.
 
 2. **Outlier Removal**:  
-   Outliers in key features such as `fare_amount` and `trip_distance` can negatively impact the model's performance due to some negative datas that does not make sense. We will also filter out extreme values by setting reasonable thresholds, such as capping `trip_distance` at 50 miles and limiting `fare_amount` to a common maximum.
+   Outliers in key features such as `fare_amount` and `trip_distance` can impact the model's performance negatively because of some negative datas that does not make sense For example, we found out that we have some negative values of distance and taxi fares which does not make sense. To deal with this, we will filter out extreme values by setting reasonable thresholds, such as capping `trip_distance` at 50 miles and limiting `fare_amount` to a common maximum.
 
 3. **Normalization and Scaling**:  
-   To ensure consistent weighting across features during model training, we will normalize or scale numerical columns such as `trip_distance`, `fare_amount`, and `total_amount`. Depending on the model requirements, we may use standardization or min-max scaling.
+   To ensure consistent weighting across features during model training, we will normalize or scale numerical columns such as `trip_distance`, `fare_amount`, and `total_amount`. Depending on the our model's design and performance, we may use standardization or min-max scaling.
