@@ -2,7 +2,7 @@
 
 ## Data Preprocessing
 
-Our dataset, sourced from Kaggle, has undergone initial cleaning by the author, which includes standard formatting and handling missing values. However, to fully optimize the data and improve the accuracy of our predictive model, additional preprocessing steps are necessary. These steps will address any remaining inconsistencies, such as missing data and outliers (e.g., negative values in `fare_amount` and `trip_distance`), which may still be present.
+Our dataset, sourced from Kaggle, has already been done a initial cleaning by the author, which includes standard formatting and handling missing values. However, to fully optimize the data and improve the accuracy of our predictive model, additional preprocessing steps are necessary. These steps will address any remaining inconsistencies, such as missing data and outliers (e.g., negative values in `fare_amount` and `trip_distance`), which may still be present.
 
 ### Planned Preprocessing Steps
 
