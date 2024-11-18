@@ -43,3 +43,29 @@ Since we got our dataset directly from Kaggle, the dataset we are using has alre
 
 3. **Normalization and Scaling**:  
    To ensure consistent weighting across features during model training, we will normalize or scale numerical columns such as `trip_distance`, `fare_amount`, and `total_amount`. Depending on the our model's design and performance, we may use standardization or min-max scaling.
+
+
+## Milestone 3: Preprocessing and First Model
+
+### Summary of Changes
+- Changed some column types for consistency.
+- Dropped observations with unknown, negative, or outlier values.
+- Pruned unnecessary columns to simplify the dataset.
+- Retained only features that directly contribute to `total_amount` (e.g., `mta_tax`).
+- Standardized numerical features (`passenger_count`, `trip_distance`).
+- Created one-hot encodings for nominal variables.
+- Trained a Linear Regression model.
+
+### Notes
+- Chose `total_amount` as the target variable.
+- Did not implement `pickup_hour` or `trip_duration`:
+  - `pickup_hour` requires sine/cosine transformation for linear regression.
+  - `trip_duration` was redundant with `trip_distance`.
+- MSE is relatively high but generalizes well from training to testing.
+- Used an 80/20 train-test split.
+
+### Deliverables
+- All code and notebooks have been uploaded to the repository.
+
+### Links
+- [Kaggle Dataset Link](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers)
