@@ -48,13 +48,30 @@ Since we got our dataset directly from Kaggle, the dataset we are using has alre
 ## Milestone 3: Preprocessing and First Model
 
 ### Summary of Changes
-- Changed some column types for consistency.
-- Dropped observations with unknown, negative, or outlier values.
-- Pruned unnecessary columns to simplify the dataset.
-- Retained only features that directly contribute to `total_amount` (e.g., `mta_tax`).
-- Standardized numerical features (`passenger_count`, `trip_distance`).
-- Created one-hot encodings for nominal variables.
-- Trained a Linear Regression model.
+1. **Data Cleaning**:
+   - Dropped rows with missing values (~1% of observations).
+   - Removed rows where:
+     - `RatecodeID = 99` (unknown rate code, ~2% of remaining observations).
+     - `payment_type` was not `1` (credit card) or `2` (cash).
+     - `total_amount <= 0` (negative or zero fares).
+     - `trip_distance <= 0` (negative or zero trip distances).
+
+2. **Feature Engineering**:
+   - Standardized numerical features (`passenger_count`, `trip_distance`) using `StandardScaler`.
+   - Removed outliers for numerical features (`passenger_count`, `trip_distance`) based on z-scores (outside ±3), reducing the dataset by ~9%.
+   - Capped `total_amount` to a maximum of $500 to handle extreme fare values.
+   - Applied one-hot encoding to categorical variables (`VendorID`, `RatecodeID`, `payment_type`) to prepare for modeling.
+   - Retained only relevant columns that do not directly contribute to the target variable (`total_amount`).
+
+3. **Exclusions**:
+   - Did not implement `pickup_hour` due to its cyclic nature, requiring sine/cosine transformation for compatibility with linear regression.
+   - Excluded `trip_duration` as it was redundant with `trip_distance`.
+
+4. **Model Training**:
+   - Trained a baseline Linear Regression model to predict `total_amount`.
+   - Used an 80/20 train-test split with `random_state=151` for reproducibility.
+   - Evaluated performance using Mean Squared Error (MSE). 
+
 
 ### Notes
 - Chose `total_amount` as the target variable.
