@@ -72,15 +72,6 @@ Since we got our dataset directly from Kaggle, the dataset we are using has alre
    - Used an 80/20 train-test split with `random_state=151` for reproducibility.
    - Evaluated performance using Mean Squared Error (MSE). 
 
-
-### Notes
-- Chose `total_amount` as the target variable.
-- Did not implement `pickup_hour` or `trip_duration`:
-  - `pickup_hour` requires sine/cosine transformation for linear regression.
-  - `trip_duration` was redundant with `trip_distance`.
-- MSE is relatively high but generalizes well from training to testing.
-- Used an 80/20 train-test split.
-
 ### Deliverables
 - All code and notebooks have been uploaded to the repository.
 
@@ -89,12 +80,17 @@ Since we got our dataset directly from Kaggle, the dataset we are using has alre
 
 ---
 
-## Conclusion
+## Fitting Graph
+After plotting the actual vs. predicted values for both our training and test sets, we notice that there is a large cluster of points in the bottom left corner of the plot (which indicates the model is frequently predicting low values). Additionally, as we move towards higher values for actual values, the points are sparser and still low for the predicted values. This suggests that the model tends to underpredict in this range for both are training and test set. Based on this, we can conclude that this model is too simple for what we are attempting to predict.  
+
+Given that our model is underfitting with the linear regression model, we may want to explore more complex models that might do a better job of accounting for non-linear relationships. We may consider switching to models such as polynomial regression or decision trees. These models have more flexibility which could improve performance for both lower and higher range values.
+
+## Conclusions Based on First Model
 
 - **Performance of the Linear Regression Model**:
   - **Training MSE**: 11.18  
   - **Testing MSE**: 11.79  
-  - The model generalizes well from the training set to the testing set, as the MSE values are close.
+  - The MSE for the training data is slightly lower than for the testing data. Because the difference between the training and testing MSE isn't very large, this indicates that the model is generalizable. 
 
 - **Insights from Coefficients**:
   - **Trip Distance** (`12.66`): Has the largest positive impact, which is expected as longer trips lead to higher fares.
@@ -105,8 +101,7 @@ Since we got our dataset directly from Kaggle, the dataset we are using has alre
   - The relatively high MSE suggests that the model does not fully capture non-linear relationships in the dataset.
   - Some features (e.g., `pickup_hour`) were excluded due to their cyclic nature but might add predictive power with proper transformations.
 
-- **Future Improvements**:
-  1. Include cyclic transformations for features like `pickup_hour`.
+- **Next Model Ideas**:
+  1. Include cyclic transformations for features like `pickup_hour` to see if this feature is important in predicting total fare.
   2. Explore advanced models such as Ridge Regression, Random Forest, or Gradient Boosting to capture non-linear relationships.
-  3. Incorporate external datasets (e.g., traffic or weather data) to provide additional context for fare prediction.
-  4. Add boolean indicators for surcharges to retain more granular details in the model.
+  3. Add boolean indicators for surcharges to retain more granular details in the model.
