@@ -86,3 +86,27 @@ Since we got our dataset directly from Kaggle, the dataset we are using has alre
 
 ### Links
 - [Kaggle Dataset Link](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers)
+
+---
+
+## Conclusion
+
+- **Performance of the Linear Regression Model**:
+  - **Training MSE**: 11.18  
+  - **Testing MSE**: 11.79  
+  - The model generalizes well from the training set to the testing set, as the MSE values are close.
+
+- **Insights from Coefficients**:
+  - **Trip Distance** (`12.66`): Has the largest positive impact, which is expected as longer trips lead to higher fares.
+  - **Payment Type** (`-8.83` for cash payments): Indicates that trips paid with cash are generally less expensive than those paid with credit.
+  - **VendorID and RatecodeID**: These categorical variables capture vendor-specific and fare-code-related differences but require more exploration for interpretability.
+
+- **Model Limitations**:
+  - The relatively high MSE suggests that the model does not fully capture non-linear relationships in the dataset.
+  - Some features (e.g., `pickup_hour`) were excluded due to their cyclic nature but might add predictive power with proper transformations.
+
+- **Future Improvements**:
+  1. Include cyclic transformations for features like `pickup_hour`.
+  2. Explore advanced models such as Ridge Regression, Random Forest, or Gradient Boosting to capture non-linear relationships.
+  3. Incorporate external datasets (e.g., traffic or weather data) to provide additional context for fare prediction.
+  4. Add boolean indicators for surcharges to retain more granular details in the model.
