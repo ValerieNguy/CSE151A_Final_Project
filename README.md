@@ -85,23 +85,86 @@ After plotting the actual vs. predicted values for both our training and test se
 
 Given that our model is underfitting with the linear regression model, we may want to explore more complex models that might do a better job of accounting for non-linear relationships. We may consider switching to models such as polynomial regression or decision trees. These models have more flexibility which could improve performance for both lower and higher range values.
 
-## Conclusions Based on First Model
+
+
+## Milestone 4: Second Model
+
+### **New Work and Updates**
+1. **Feature Selection**:
+   - Used `SelectKBest` with `f_regression` to identify the top 5 features.
+   - Applied the same transformation to training and testing sets.
+
+2. **Model Implementation**:
+   - Built two models to improve performance:  
+     - **Decision Tree Regressor**: A simpler non-linear model to assess initial improvements.  
+     - **Random Forest Regressor**: An ensemble method to enhance generalization and reduce overfitting.
+
+3. **Decision Tree Regressor**:
+   - Trained the Decision Tree model on the full dataset.
+   - Manually tuned `max_depth`, `min_samples_split`, and `min_samples_leaf`.
+   - **Training MSE**: 8.80
+     **Testing MSE**: 9.68  
+   - Observations: The Decision Tree captured non-linear relationships better than Linear Regression but suffered from overfitting, as seen in the gap between training and testing errors.
+
+4. **Random Forest Regressor**:
+   - Initially trained on a 10% sample of the dataset for hyperparameter tuning due to computational constraints.
+   - Hyperparameters tuned using `GridSearchCV`:
+     - Parameters: `n_estimators`, `max_depth`, `min_samples_split`, and `min_samples_leaf`.
+   - Retrained the model using the best-found parameters on the full training dataset.
+   - **Training MSE**: 5.17  
+     **Testing MSE**: 5.73  
+   - Observations: The Random Forest outperformed both Linear Regression and the Decision Tree, reducing overfitting and generalizing better.
+
+5. **Code and Resources**:
+   - [Notebook for Milestone 4](https://github.com/ValerieNguy/CSE151A_Final_Project/blob/main/CSE%20151A%20Milestone%204.ipynb)
+   - [Dataset from Kaggle](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers)
+
+
+## Conclusions 
+
+### **First Model: Linear Regression**
 
 - **Performance of the Linear Regression Model**:
   - **Training MSE**: 11.18  
   - **Testing MSE**: 11.79  
-  - The MSE for the training data is slightly lower than for the testing data. Because the difference between the training and testing MSE isn't very large, this indicates that the model is generalizable. 
+  - The small difference between the training and testing MSE indicates that the model is generalizable but lacks the complexity to capture non-linear relationships effectively.
 
 - **Insights from Coefficients**:
-  - **Trip Distance** (`12.66`): Has the largest positive impact, which is expected as longer trips lead to higher fares.
-  - **Payment Type** (`-8.83` for cash payments): Indicates that trips paid with cash are generally less expensive than those paid with credit.
-  - **VendorID and RatecodeID**: These categorical variables capture vendor-specific and fare-code-related differences but require more exploration for interpretability.
+  - **Trip Distance** (`12.66`): The most significant positive predictor, aligning with expectations as longer trips naturally incur higher fares.
+  - **Payment Type** (`-8.83` for cash payments): Suggests that trips paid with cash tend to be cheaper than those paid with credit.
+  - **VendorID and RatecodeID**: Capture vendor-specific and fare-code-related differences, though their interpretability requires further analysis.
 
 - **Model Limitations**:
-  - The relatively high MSE suggests that the model does not fully capture non-linear relationships in the dataset.
-  - Some features (e.g., `pickup_hour`) were excluded due to their cyclic nature but might add predictive power with proper transformations.
+  - The model is overly simplistic and does not account for non-linear relationships, leading to a relatively high MSE.
+  - Excluded features like `pickup_hour` might contain predictive information if transformed into cyclic representations.
+  - Lack of granularity in fare components, such as surcharges, may hinder the model's performance.
 
 - **Next Model Ideas**:
-  1. Include cyclic transformations for features like `pickup_hour` to see if this feature is important in predicting total fare.
-  2. Explore advanced models such as Ridge Regression, Random Forest, or Gradient Boosting to capture non-linear relationships.
-  3. Add boolean indicators for surcharges to retain more granular details in the model.
+  1. Apply cyclic transformations for features like `pickup_hour` to evaluate their contribution to fare prediction.
+  2. Transition to advanced models like Ridge Regression, Random Forest, or Gradient Boosting for better handling of non-linearity.
+  3. Include granular boolean features for surcharges and congestion-related details to enhance the model's robustness.
+
+---
+
+### **Second Model: Decision Tree and Random Forest**
+
+- **Performance of the Decision Tree Regressor**:
+  - **Training MSE**: 8.80  
+  - **Testing MSE**: 9.68  
+  - The Decision Tree model captured non-linear relationships better than Linear Regression but exhibited overfitting, as indicated by the significant gap between training and testing MSE. While it was an improvement over the Linear Regression model, it struggled to generalize well on unseen data.
+
+- **Performance of the Random Forest Model**:
+  - **Training MSE**: 5.17  
+  - **Testing MSE**: 5.73  
+  - The Random Forest model outperformed both Linear Regression and Decision Tree models. The minimal gap between training and testing MSE indicates reduced overfitting and better generalization.
+
+- **Comparison and Conclusion**:
+  - After trying both the **Decision Tree Regressor** and the **Random Forest Regressor**, we concluded that the **Random Forest Model** is the better choice for this dataset.
+  - The Random Forest model handles non-linear relationships more effectively while mitigating overfitting through its ensemble approach.
+  - The added complexity of the Random Forest was justified by its improved performance and robustness across various fare ranges.
+
+- **Next Steps for Improvement**:
+  1. Experiment with Gradient Boosting models, such as XGBoost or LightGBM, for potentially better performance.
+  2. Implement k-fold cross-validation to further validate the model's robustness.
+  3. Investigate external factors (e.g., traffic or weather data) to provide additional context for fare prediction.
+  4. Optimize training time by using sampled data or parallel computing during hyperparameter tuning.
