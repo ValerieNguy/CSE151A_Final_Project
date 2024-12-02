@@ -102,7 +102,7 @@ Given that our model is underfitting with the linear regression model, we may wa
 3. **Decision Tree Regressor**:
    - Trained the Decision Tree model on the full dataset.
    - Manually tuned `max_depth`, `min_samples_split`, and `min_samples_leaf`.
-   - **Training MSE**: 8.80
+   - **Training MSE**: 8.80  
      **Testing MSE**: 9.68  
    - Observations: The Decision Tree captured non-linear relationships better than Linear Regression but still suffered from overfitting, as seen in the gap between training and testing errors.
 
@@ -113,9 +113,16 @@ Given that our model is underfitting with the linear regression model, we may wa
    - Retrained the model using the best-found parameters on the full training dataset.
    - **Training MSE**: 5.17  
      **Testing MSE**: 5.73  
-   - Observations: The Random Forest outperformed both Linear Regression and the Decision Tree modoels, reducing overfitting and generalizing better.
+   - Observations: The Random Forest outperformed both Linear Regression and the Decision Tree models, reducing overfitting and generalizing better.
 
-5. **Code and Resources**:
+5. **Prediction Analysis (Test Data)**:
+   - **Correct Predictions**: 937,500  
+   - **False Positives (FP)**: 126,096  
+   - **False Negatives (FN)**: 68,766  
+   - A prediction was considered "correct" if it fell within ±10% of the actual value.
+   - **Visualization**: A bar chart was generated to display the counts of correct predictions, false positives, and false negatives, highlighting the model's strong accuracy. However, the false positives and false negatives indicate potential areas for improvement.
+
+6. **Code and Resources**:
    - [Notebook for Milestone 4](https://github.com/ValerieNguy/CSE151A_Final_Project/blob/main/CSE%20151A%20Milestone%204.ipynb)
    - [Dataset from Kaggle](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers)
 
@@ -157,13 +164,17 @@ Given that our model is underfitting with the linear regression model, we may wa
   - **Training MSE**: 5.17  
   - **Testing MSE**: 5.73  
   - The Random Forest model outperformed both Linear Regression and Decision Tree models. The minimal gap between training and testing MSE indicates reduced overfitting and better generalization.
-  - We do believe that with Random Forest Model trained on full dataset will definitely give us better prediction performance and we are planning to increase our total datset that is being trained on.
-
+  - **Prediction Analysis (Test Data)**:
+    - **Correct Predictions**: 937,500  
+    - **False Positives (FP)**: 126,096  
+    - **False Negatives (FN)**: 68,766  
+    - A prediction was considered "correct" if it fell within ±10% of the actual value. While the Random Forest model demonstrated strong accuracy with a large number of correct predictions, the false positives and false negatives highlight areas for potential improvement.
+  - We believe that training the Random Forest model on the full dataset would further enhance prediction performance. Increasing the proportion of the dataset used for training is a key focus for improvement.
 
 - **Comparison and Conclusion**:
   - After trying both the **Decision Tree Regressor** and the **Random Forest Regressor**, we concluded that the **Random Forest Model** is the better choice for this dataset.
   - The Random Forest model handles non-linear relationships more effectively while mitigating overfitting through its ensemble approach.
-
+  - Furthermore, the prediction analysis shows that while the model achieves strong accuracy, addressing false positives and false negatives is necessary to improve reliability further.
 
 - **Next Steps for Improvement**:
   1. Experiment with Gradient Boosting models, such as XGBoost or LightGBM, for potentially better performance.
