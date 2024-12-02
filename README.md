@@ -104,7 +104,7 @@ Given that our model is underfitting with the linear regression model, we may wa
    - Manually tuned `max_depth`, `min_samples_split`, and `min_samples_leaf`.
    - **Training MSE**: 8.80
      **Testing MSE**: 9.68  
-   - Observations: The Decision Tree captured non-linear relationships better than Linear Regression but suffered from overfitting, as seen in the gap between training and testing errors.
+   - Observations: The Decision Tree captured non-linear relationships better than Linear Regression but still suffered from overfitting, as seen in the gap between training and testing errors.
 
 4. **Random Forest Regressor**:
    - Initially trained on a 10% sample of the dataset for hyperparameter tuning due to computational constraints.
@@ -113,7 +113,7 @@ Given that our model is underfitting with the linear regression model, we may wa
    - Retrained the model using the best-found parameters on the full training dataset.
    - **Training MSE**: 5.17  
      **Testing MSE**: 5.73  
-   - Observations: The Random Forest outperformed both Linear Regression and the Decision Tree, reducing overfitting and generalizing better.
+   - Observations: The Random Forest outperformed both Linear Regression and the Decision Tree modoels, reducing overfitting and generalizing better.
 
 5. **Code and Resources**:
    - [Notebook for Milestone 4](https://github.com/ValerieNguy/CSE151A_Final_Project/blob/main/CSE%20151A%20Milestone%204.ipynb)
@@ -157,14 +157,15 @@ Given that our model is underfitting with the linear regression model, we may wa
   - **Training MSE**: 5.17  
   - **Testing MSE**: 5.73  
   - The Random Forest model outperformed both Linear Regression and Decision Tree models. The minimal gap between training and testing MSE indicates reduced overfitting and better generalization.
+  - We do believe that with Random Forest Model trained on full dataset will definitely give us better prediction performance and we are planning to increase our total datset that is being trained on.
+
 
 - **Comparison and Conclusion**:
   - After trying both the **Decision Tree Regressor** and the **Random Forest Regressor**, we concluded that the **Random Forest Model** is the better choice for this dataset.
   - The Random Forest model handles non-linear relationships more effectively while mitigating overfitting through its ensemble approach.
-  - The added complexity of the Random Forest was justified by its improved performance and robustness across various fare ranges.
+
 
 - **Next Steps for Improvement**:
   1. Experiment with Gradient Boosting models, such as XGBoost or LightGBM, for potentially better performance.
-  2. Implement k-fold cross-validation to further validate the model's robustness.
-  3. Investigate external factors (e.g., traffic or weather data) to provide additional context for fare prediction.
-  4. Optimize training time by using sampled data or parallel computing during hyperparameter tuning.
+  2. Expand training to a larger dataset, as the current model was trained on only 10% of the data due to computational constraints.
+  3. Implement k-fold cross-validation to further validate the model's robustness.
