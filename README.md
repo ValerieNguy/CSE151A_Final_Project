@@ -81,11 +81,10 @@ Since we got our dataset directly from Kaggle, the dataset we are using has alre
 ---
 
 ## Fitting Graph
-After plotting the actual vs. predicted values for both our training and test sets, we notice that there is a large cluster of points in the bottom left corner of the plot (which indicates the model is frequently predicting low values). Additionally, as we move towards higher values for actual values, the points are sparser and still low for the predicted values. This suggests that the model tends to underpredict in this range for both are training and test set. Based on this, we can conclude that this model is too simple for what we are attempting to predict.  
 
-Given that our model is underfitting with the linear regression model, we may want to explore more complex models that might do a better job of accounting for non-linear relationships. We may consider switching to models such as polynomial regression or decision trees. These models have more flexibility which could improve performance for both lower and higher range values.
+Although our model generalized well, evidenced by a relatively small gap between the training and testing loss, our MSE is still quite high. This points to our linear regression model being on the low end of model complexity and to the left of the ideal range that balances complexity, predictive error, and generalizability.
 
-
+Because of this, we plan to increase our model complexity, with the goal of decreasing our MSE while minimizing the gap between our training and testing loss. Since our dataset features some categorical attributes, we will move forward with a Decision Tree model that should help capture the non-linear relationships lost in linear regression. To mitigate the overfitting that often plagues such models, we will then further iterate on this by using a Random Forest. 
 
 ## Milestone 4: Second Model
 
@@ -110,6 +109,11 @@ Given that our model is underfitting with the linear regression model, we may wa
    - Initially trained on a 10% sample of the dataset for hyperparameter tuning due to computational constraints.
    - Hyperparameters tuned using `GridSearchCV`:
      - Parameters: `n_estimators`, `max_depth`, `min_samples_split`, and `min_samples_leaf`.
+     - Final hyperparameter values:
+       - `n_estimators`: 100
+       - `max_depth`: 10
+       - `min_samples_split`: 5
+       - `min_samples_leaf`: 1
    - Retrained the model using the best-found parameters on the full training dataset.
    - **Training MSE**: 5.17  
      **Testing MSE**: 5.73  
