@@ -104,7 +104,7 @@ Given that our model is underfitting with the linear regression model, we may wa
    - Manually tuned `max_depth`, `min_samples_split`, and `min_samples_leaf`.
    - **Training MSE**: 8.80  
      **Testing MSE**: 9.68  
-   - Observations: The Decision Tree captured non-linear relationships better than Linear Regression but still suffered from overfitting, as seen in the gap between training and testing errors.
+   - Observations: We can clearly see that the Decision Tree has non-linear relationships better than Linear Regression but still suffered from overfitting based on gap between training and testing errors.
 
 4. **Random Forest Regressor**:
    - Initially trained on a 10% sample of the dataset for hyperparameter tuning due to computational constraints.
