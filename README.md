@@ -19,9 +19,9 @@ The NYC Taxi Fare dataset contains approximately 6.4 million (6,405,008) observa
 - `payment_type`: Method of payment (e.g., cash, card).
 
 Preliminary analysis revealed:
-- Strong correlations between fare-related components (e.g., fare_amount, total_amount, tip_amount).
-- Negative correlations between some vendor identifiers and additional charges.
-- Outliers in key features such as trip_distance and total_amount.
+- **Correlation**: Strong correlations between fare-related components (e.g., fare_amount, total_amount, tip_amount).
+- **Missing Data**: ~327,205 missing values across columns such as `VendorID` and `passenger_count`.
+- **Outliers**: Detected in trip_distance (max: 210,240.07 miles) and total_amount (max: $4,265).
 
 
 ### Data Preprocessing
