@@ -13,7 +13,7 @@ The NYC Taxi Fare dataset comprises approximately 6.4 million observations and 1
 
 ### Figure 1: Fare Amount vs. Trip Distance (Filtered)
 ![Screenshot 2024-12-08 at 10 26 43 AM](https://github.com/user-attachments/assets/5c477573-2553-4115-a229-3b6eb1034d55)
-
+This scatter plot illustrates the relationship between trip distance (in miles) and fare amount (in dollars) after filtering outliers. The data exhibits a generally positive trend, where longer trip distances correspond to higher fares. However, there is considerable variation, particularly for shorter trips, which could reflect differences in location, surcharges, or additional charges. Outliers in both fare amount and trip distance have been removed to focus on the core patterns.
 
 
 
