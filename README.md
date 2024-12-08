@@ -9,19 +9,7 @@ What makes this project exciting is the opportunity to leverage machine learning
 ## Methods
 
 ### Data Exploration
-The NYC Taxi Fare dataset contains approximately 6.4 million (6,405,008) observations and 18 features. The key features include:
-- `VendorID`: Identifier for the taxi vendor or service provider.
-- `tpep_pickup_datetime` and `tpep_dropoff_datetime`: Timestamps for trip start and end.
-- `passenger_count`: Number of passengers.
-- `trip_distance`: Distance of the trip.
-- `fare_amount`: Base fare amount.
-- `total_amount`: Total fare amount, including all surcharges.
-- `payment_type`: Method of payment (e.g., cash, card).
-
-Preliminary analysis revealed:
-- **Correlation**: Strong correlations between fare-related components (e.g., fare_amount, total_amount, tip_amount).
-- **Missing Data**: ~327,205 missing values across columns such as `VendorID` and `passenger_count`.
-- **Outliers**: Detected in trip_distance (max: 210,240.07 miles) and total_amount (max: $4,265).
+The NYC Taxi Fare dataset comprises approximately 6.4 million observations and 18 features, providing comprehensive information on taxi rides in New York City. Key features include VendorID, which identifies the taxi vendor or service provider; tpep_pickup_datetime and tpep_dropoff_datetime, which record the trip start and end timestamps; passenger_count, indicating the number of passengers; trip_distance, which measures the distance traveled; fare_amount, representing the base fare amount; total_amount, which includes surcharges; and payment_type, indicating the payment method (e.g., cash or card). A detailed preliminary analysis revealed strong correlations among fare-related components such as fare_amount, total_amount, and tip_amount, suggesting consistency in fare calculations. The dataset contains approximately 327,205 missing values across various columns, including VendorID and passenger_count. Significant outliers were identified in key features, such as an exceptionally high trip distance of 210,240.07 miles and a maximum total fare amount of $4,265, both of which highlight the need for careful preprocessing before model training.
 
 
 
