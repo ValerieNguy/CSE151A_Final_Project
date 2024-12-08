@@ -1,182 +1,100 @@
-# CSE151A Final Project
+## Introduction
 
-## Data Exploration
+Our project focuses on predicting taxi fares using the NYC Taxi Fare dataset and we choose this topic to solve real-world relevance and the potential to address a common frustration among riders espcially with unpredictable fare pricing. In Texi services like Uber and Lyft, fares often fluctuate dramatically, especially in high-demand areas like airports. This inconsistency can make it difficult for users to plan trips or trust the pricing system. By building a predictive model, we aim to reduce this unpredictability and provide riders with better insights into fare expectations.
 
-The dataset we are using contains 6,405,008 observations (each observation being a taxi trip record) with 18 features. 
+What makes this project exciting is the opportunity to leverage machine learning to solve a tangible problem. Accurate fare predictions are not only beneficial for riders but also for service providers. For users, a predictive model offers transparency and allows them to determine whether a given fare is reasonable. For providers, the model can inform dynamic pricing algorithms, ensuring fares are competitive yet fair. On a broader scale, improving fare predictability fosters trust in transportation platforms, reduces anxiety around trip costs, and creates a more equitable system for both consumers and drivers. Ultimately, this work highlights how data-driven solutions can transform user experiences and operational strategies in transportation services.
 
-As stated on the Kaggle dataset, the columns include:
-   * VendorID: A unique identifier for the taxi vendor or service provider.
-   * tpep_pickup_datetime: The date and time when the passenger was picked up.
-   * tpep_dropoff_datetime: The date and time when the passenger was dropped off.
-   * passenger_count: The number of passengers in the taxi.
-   * trip_distance: The total distance of the trip in miles or kilometers.
-   * RatecodeID: The rate code assigned to the trip, representing fare types.
-   * store_and_fwd_flag: Indicates whether the trip data was stored locally and then forwarded later (Y/N).
-   * PULocationID: The unique identifier for the pickup location (zone or area).
-   * DOLocationID: The unique identifier for the drop-off location (zone or area).
-   * payment_type: The method of payment used by the passenger (e.g., cash, card).
-   * fare_amount: The base fare for the trip.
-   * extra: Additional charges applied during the trip (e.g., night surcharge).
-   * mta_tax: The tax imposed by the Metropolitan Transportation Authority.
-   * tip_amount: The tip given to the driver, if applicable.
-   * tolls_amount: The total amount of tolls charged during the trip.
-   * improvement_surcharge: A surcharge imposed for the improvement of services.
-   * total_amount: The total fare amount, including all charges and surcharges.
-   * congestion_surcharge: An additional charge for trips taken during high traffic congestion times.
+## Methods
 
-When analyzing the correlation heatmap, we noticed high correlations between the different fee amounts, which include fare_amount, total_amount, tip_amount, and toll_amount. Additionally, there is a negative correlation between extra charges and VendorID which may suggest that different pricing structures among vendor. Other correlationships include a negative relationship between payment_type and tip_amount and a negative relationship between improvement_surcharge and mta_tax. This relationships could be worth further analyzing to determine if they could impact fare.
+### Data Exploration
 
-Looking into data distribution details, we noticed potential outliers in trip_distance, fare_amount, extra, MTA_tax, total_amount, tolls_amount, and congestion_surcharge. These will be handled in data preprocessing as described below.
+The NYC Taxi Fare dataset contains approximately 6.4 million observations and 18 features. The key features include:
+
+- **VendorID**: Identifier for the taxi vendor or service provider.  
+- **tpep_pickup_datetime** and **tpep_dropoff_datetime**: Timestamps for trip start and end.  
+- **passenger_count**: Number of passengers in the taxi.  
+- **trip_distance**: Total distance of the trip.  
+- **fare_amount**: Base fare amount.  
+- **total_amount**: Total fare amount, including all surcharges.  
+- **payment_type**: Method of payment (e.g., cash, card).  
+
+#### Findings
+- Strong correlations were observed between fare-related features such as `fare_amount`, `total_amount`, and `tip_amount`.
+- Negative correlations were noted between certain vendor identifiers (`VendorID`) and extra charges, as well as between `payment_type` and `tip_amount`.
+- Potential outliers were identified in features such as `trip_distance`, `fare_amount`, `extra`, and `total_amount`.
 
 
-## Data Preprocessing
+### Data Preprocessing
 
-Since we got our dataset directly from Kaggle, the dataset we are using has already had an initial cleaning by the author, which includes standard formatting and handling missing or null values. However, to fully optimize the data and improve the accuracy of our predictive model, we are planning to add some more preprocessing steps are helpful towards our model. These following steps will be taken to get rid of any remaining inconsistencies, such as any missing or null datas and outliers (e.g., negative values in `fare_amount` and `trip_distance`).
+To prepare the dataset for modeling, we performed the following preprocessing steps:
 
-### Planned Preprocessing Steps
+#### 1. Handling Missing Values
+- Identified ~300,000 rows (~1% of the dataset) with missing or null values.
+- Dropped rows with null values to avoid introducing bias.
 
-1. **Handling Missing or Null Values**:  
-   We have already found out that we have around 300,000 null datas out of 6.5 million datas  and our goal is to examine each column for any remaining miss or null values and determine an appropriate strategy to address them. Depending on the feature, we are planning to choose to drop rows with null values.
+#### 2. Removing Invalid Entries
+- Removed rows with nonsensical or invalid data:
+  - **RatecodeID = 99**: Unknown rate codes (~2% of observations).
+  - **payment_type** not in `{1, 2}`: Excluded unsupported payment types.
+  - **total_amount ≤ 0**: Negative or zero fare amounts.
+  - **trip_distance ≤ 0**: Negative or zero trip distances.
 
-2. **Outlier Removal**:  
-   Outliers in key features such as `fare_amount` and `trip_distance` can impact the model's performance negatively because of some negative datas that does not make sense For example, we found out that we have some negative values of distance and taxi fares which does not make sense. To deal with this, we will filter out extreme values by setting reasonable thresholds, such as capping `trip_distance` at 50 miles and limiting `fare_amount` to a common maximum.
+#### 3. Outlier Removal
+- Filtered extreme values:
+  - **trip_distance** capped at 50 miles.
+  - **total_amount** capped at $500.
+- Applied z-score filtering (±3) to remove additional outliers from `trip_distance` and `passenger_count`.
 
-3. **Normalization and Scaling**:  
-   To ensure consistent weighting across features during model training, we will normalize or scale numerical columns such as `trip_distance`, `fare_amount`, and `total_amount`. Depending on the our model's design and performance, we may use standardization or min-max scaling.
+#### 4. Normalization and Scaling
+- Standardized numerical features (`trip_distance`, `fare_amount`, `total_amount`) using StandardScaler to ensure consistent weighting during model training.
 
-
-## Milestone 3: Preprocessing and First Model
-
-### Summary of Changes
-1. **Data Cleaning**:
-   - Dropped rows with missing values (~1% of observations).
-   - Removed rows where:
-     - `RatecodeID = 99` (unknown rate code, ~2% of remaining observations).
-     - `payment_type` was not `1` (credit card) or `2` (cash).
-     - `total_amount <= 0` (negative or zero fares).
-     - `trip_distance <= 0` (negative or zero trip distances).
-
-2. **Feature Engineering**:
-   - Standardized numerical features (`passenger_count`, `trip_distance`) using `StandardScaler`.
-   - Removed outliers for numerical features (`passenger_count`, `trip_distance`) based on z-scores (outside ±3), reducing the dataset by ~9%.
-   - Capped `total_amount` to a maximum of $500 to handle extreme fare values.
-   - Applied one-hot encoding to categorical variables (`VendorID`, `RatecodeID`, `payment_type`) to prepare for modeling.
-   - Retained only relevant columns that do not directly contribute to the target variable (`total_amount`).
-
-3. **Exclusions**:
-   - Did not implement `pickup_hour` due to its cyclic nature, requiring sine/cosine transformation for compatibility with linear regression.
-   - Excluded `trip_duration` as it was redundant with `trip_distance`.
-
-4. **Model Training**:
-   - Trained a baseline Linear Regression model to predict `total_amount`.
-   - Used an 80/20 train-test split with `random_state=151` for reproducibility.
-   - Evaluated performance using Mean Squared Error (MSE). 
-
-### Deliverables
-- All code and notebooks have been uploaded to the repository.
-
-### Links
-- [Kaggle Dataset Link](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers)
-
----
-
-## Fitting Graph
-After plotting the actual vs. predicted values for both our training and test sets, we notice that there is a large cluster of points in the bottom left corner of the plot (which indicates the model is frequently predicting low values). Additionally, as we move towards higher values for actual values, the points are sparser and still low for the predicted values. This suggests that the model tends to underpredict in this range for both are training and test set. Based on this, we can conclude that this model is too simple for what we are attempting to predict.  
-
-Given that our model is underfitting with the linear regression model, we may want to explore more complex models that might do a better job of accounting for non-linear relationships. We may consider switching to models such as polynomial regression or decision trees. These models have more flexibility which could improve performance for both lower and higher range values.
+#### 5. Categorical Encoding
+- Applied one-hot encoding to categorical features (`VendorID`, `RatecodeID`, `payment_type`) to prepare the dataset for machine learning models.
 
 
 
-## Milestone 4: Second Model
+### Model 1: Linear Regression
 
-### **New Work and Updates**
-1. **Feature Selection**:
-   - Used `SelectKBest` with `f_regression` to identify the top 5 features.
-   - Applied the same transformation to training and testing sets.
+#### Overview
+- Baseline model used to predict `total_amount` from selected features.
+- Purpose: Establish a reference for comparison with more complex models.
 
-2. **Model Implementation**:
-   - Built two models to improve performance:  
-     - **Decision Tree Regressor**: A simpler non-linear model to assess initial improvements.  
-     - **Random Forest Regressor**: An ensemble method to enhance generalization and reduce overfitting.
-
-3. **Decision Tree Regressor**:
-   - Trained the Decision Tree model on the full dataset.
-   - Manually tuned `max_depth`, `min_samples_split`, and `min_samples_leaf`.
-   - **Training MSE**: 8.80  
-     **Testing MSE**: 9.68  
-   - Observations: We can clearly see that the Decision Tree has non-linear relationships better than Linear Regression but still suffered from overfitting based on gap between training and testing errors.
-
-4. **Random Forest Regressor**:
-   - Initially trained on a 10% sample of the dataset for hyperparameter tuning due to computational constraints.
-   - Hyperparameters tuned using `GridSearchCV`:
-     - Parameters: `n_estimators`, `max_depth`, `min_samples_split`, and `min_samples_leaf`.
-   - Retrained the model using the best-found parameters on the full training dataset.
-   - **Training MSE**: 5.17  
-     **Testing MSE**: 5.73  
-   - Observations: The Random Forest outperformed both Linear Regression and the Decision Tree models, reducing overfitting and generalizing better.
-
-5. **Prediction Analysis (Test Data)**:
-   - **Correct Predictions**: 937,500  
-   - **False Positives (FP)**: 126,096  
-   - **False Negatives (FN)**: 68,766  
-   - A prediction was considered "correct" if it fell within ±10% of the actual value.
-   - **Visualization**: A bar chart was generated to display the counts of correct predictions, false positives, and false negatives, highlighting the model's strong accuracy. However, the false positives and false negatives indicate potential areas for improvement.
-
-6. **Code and Resources**:
-   - [Notebook for Milestone 4](https://github.com/ValerieNguy/CSE151A_Final_Project/blob/main/CSE%20151A%20Milestone%204.ipynb)
-   - [Dataset from Kaggle](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers)
+#### Implementation Details
+- Split the dataset into training and testing sets using an 80:20 ratio (`random_state=151` for reproducibility).
+- Trained a Linear Regression model with default hyperparameters.
+- Evaluated performance using Mean Squared Error (MSE) on both training and testing sets.
 
 
-## Conclusions 
 
-### **First Model: Linear Regression**
+### Model 2: Decision Tree Regressor
 
-- **Performance of the Linear Regression Model**:
-  - **Training MSE**: 11.18  
-  - **Testing MSE**: 11.79  
-  - The small difference between the training and testing MSE indicates that the model is generalizable but lacks the complexity to capture non-linear relationships effectively.
+#### Overview
+- Introduced to capture non-linear relationships in the dataset that Linear Regression could not address.
+- Purpose: Improve prediction accuracy by modeling complex interactions between features.
 
-- **Insights from Coefficients**:
-  - **Trip Distance** (`12.66`): The most significant positive predictor, aligning with expectations as longer trips naturally incur higher fares.
-  - **Payment Type** (`-8.83` for cash payments): Suggests that trips paid with cash tend to be cheaper than those paid with credit.
-  - **VendorID and RatecodeID**: Capture vendor-specific and fare-code-related differences, though their interpretability requires further analysis.
+#### Implementation Details
+- Dataset: Same training and testing sets as used for Model 1 (80:20 split, `random_state=151`).
+- Hyperparameter tuning:
+  - `max_depth`: Limits the depth of the tree to prevent overfitting.
+  - `min_samples_split`: Minimum number of samples required to split a node.
+  - `min_samples_leaf`: Minimum number of samples required to be in a leaf node.
+- Evaluated using Mean Squared Error (MSE) on training and testing sets.
 
-- **Model Limitations**:
-  - The model is overly simplistic and does not account for non-linear relationships, leading to a relatively high MSE.
-  - Excluded features like `pickup_hour` might contain predictive information if transformed into cyclic representations.
-  - Lack of granularity in fare components, such as surcharges, may hinder the model's performance.
 
-- **Next Model Ideas**:
-  1. Apply cyclic transformations for features like `pickup_hour` to evaluate their contribution to fare prediction.
-  2. Transition to advanced models like Ridge Regression, Random Forest, or Gradient Boosting for better handling of non-linearity.
-  3. Include granular boolean features for surcharges and congestion-related details to enhance the model's robustness.
 
----
+### Model 3: Random Forest Regressor
 
-### **Second Model: Decision Tree and Random Forest**
+#### Overview
+- Introduced to reduce overfitting and improve generalization compared to the Decision Tree model.
+- Purpose: Leverage an ensemble approach to better capture non-linear relationships and variability in the dataset.
 
-- **Performance of the Decision Tree Regressor**:
-  - **Training MSE**: 8.80  
-  - **Testing MSE**: 9.68  
-  - The Decision Tree model captured non-linear relationships better than Linear Regression but exhibited overfitting, as indicated by the significant gap between training and testing MSE. While it was an improvement over the Linear Regression model, it struggled to generalize well on unseen data.
-
-- **Performance of the Random Forest Model**:
-  - **Training MSE**: 5.17  
-  - **Testing MSE**: 5.73  
-  - The Random Forest model outperformed both Linear Regression and Decision Tree models. The minimal gap between training and testing MSE indicates reduced overfitting and better generalization.
-  - **Prediction Analysis (Test Data)**:
-    - **Correct Predictions**: 937,500  
-    - **False Positives (FP)**: 126,096  
-    - **False Negatives (FN)**: 68,766  
-    - A prediction was considered "correct" if it fell within ±10% of the actual value. While the Random Forest model demonstrated strong accuracy with a large number of correct predictions, the false positives and false negatives highlight areas for potential improvement.
-  - We believe that training the Random Forest model on the full dataset would further enhance prediction performance. Increasing the proportion of the dataset used for training is a key focus for improvement.
-
-- **Comparison and Conclusion**:
-  - After trying both the **Decision Tree Regressor** and the **Random Forest Regressor**, we concluded that the **Random Forest Model** is the better choice for this dataset.
-  - The Random Forest model handles non-linear relationships more effectively while mitigating overfitting through its ensemble approach.
-  - Furthermore, the prediction analysis shows that while the model achieves strong accuracy, addressing false positives and false negatives is necessary to improve reliability further.
-
-- **Next Steps for Improvement**:
-  1. Experiment with Gradient Boosting models, such as XGBoost or LightGBM, for potentially better performance.
-  2. Expand training to a larger dataset, as the current model was trained on only 10% of the data due to computational constraints.
-  3. Implement k-fold cross-validation to further validate the model's robustness.
+#### Implementation Details
+- Dataset: Same training and testing sets as used for previous models (80:20 split, `random_state=151`).
+- Hyperparameter tuning:
+  - Used `GridSearchCV` to optimize:
+    - `n_estimators`: Number of trees in the forest.
+    - `max_depth`: Maximum depth of each tree.
+    - `min_samples_split`: Minimum number of samples required to split a node.
+    - `min_samples_leaf`: Minimum number of samples required in a leaf node.
+- Trained the final model on the full dataset using the best parameters from GridSearchCV.
+- Evaluated performance using Mean Squared Error (MSE) on both training and testing sets.
