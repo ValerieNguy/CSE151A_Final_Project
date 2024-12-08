@@ -15,35 +15,7 @@ The NYC Taxi Fare dataset comprises approximately 6.4 million observations and 1
 
 ### Data Preprocessing
 
-To prepare the dataset for modeling, we performed the following preprocessing steps:
-
-#### 1. Handling Missing Values
-- Identified ~300,000 rows (~1% of the dataset) with missing or null values.
-- Dropped rows with null values to avoid introducing bias.
-
-#### 2. Removing Invalid Entries
-- Removed rows with nonsensical or invalid data:
-  - **RatecodeID = 99**: Unknown rate codes (~2% of observations).
-  - **payment_type** not in `{1, 2}`: Excluded unsupported payment types.
-  - **total_amount ≤ 0**: Negative or zero fare amounts.
-  - **trip_distance ≤ 0**: Negative or zero trip distances.
-
-#### 3. Outlier Removal
-- Filtered extreme values:
-  - **trip_distance** capped at 50 miles.
-  - **total_amount** capped at $500.
-- Utilized z-score filtering (±3) to remove additional outliers from trip_distance and passenger_count.
-
-#### 4. Normalization and Scaling
-- Standardized numerical features (`trip_distance`, `fare_amount`, `total_amount`) using StandardScaler to ensure consistent weighting during model training.
-
-#### 5. Feature Selection
-- Retained only relevant columns: `total_amount`, `VendorID`, `RatecodeID`, `payment_type`, `passenger_count`, `trip_distance`.
-
-#### 6. Categorical Encoding
-- Applied one-hot encoding to categorical features (`VendorID`, `RatecodeID`, `payment_type`) to prepare the dataset for machine learning models.
-
-
+To prepare the dataset for modeling, several preprocessing steps were performed to ensure data quality and suitability for machine learning. First, approximately 300,000 rows (~1% of the dataset) with missing or null values were identified and dropped to maintain data integrity and avoid introducing bias. Next, invalid entries were removed, including rows with RatecodeID = 99 (unknown rate codes, ~2% of observations), unsupported payment_type values not in {1, 2}, and rows with negative or zero values in total_amount or trip_distance. To handle outliers, extreme values were capped with thresholds, limiting trip_distance to 50 miles and total_amount to $500. Additional outliers in trip_distance and passenger_count were filtered using z-score thresholds (±3). For consistency, numerical features such as trip_distance, fare_amount, and total_amount were standardized using StandardScaler. Only relevant columns, including total_amount, VendorID, RatecodeID, payment_type, passenger_count, and trip_distance, were retained for model training. Finally, categorical features like VendorID, RatecodeID, and payment_type were converted into machine-readable formats using one-hot encoding, completing the preprocessing pipeline.
 
 
 
@@ -52,48 +24,17 @@ To prepare the dataset for modeling, we performed the following preprocessing st
 
 ### Model 1: Linear Regression
 
-#### Overview
-- Baseline model used to predict `total_amount` from selected features.
-- Purpose: Establish a reference for comparison with more complex models.
-
-#### Implementation Details
-- Split the dataset into training and testing sets using an 80:20 ratio (`random_state=151` for reproducibility).
-- Trained a Linear Regression model with default hyperparameters.
-- Evaluated performance using Mean Squared Error (MSE) on both training and testing sets.
+The first model implemented was a Linear Regression model, serving as a baseline to predict total_amount based on the selected features. The purpose of this model was to establish a reference point for evaluating the performance of more complex models. The dataset was split into training and testing subsets using an 80:20 ratio, with a random_state of 151 to ensure reproducibility. The model was trained with default hyperparameters and evaluated using Mean Squared Error (MSE) on both training and testing sets. This baseline provides a straightforward yet effective comparison for subsequent models.
 
 
 ### Model 2: Decision Tree Regressor
 
-#### Overview
-- Introduced to capture non-linear relationships in the dataset that Linear Regression could not address.
-- Purpose: Improve prediction accuracy by modeling complex interactions between features.
-
-#### Implementation Details
-- Dataset: Same training and testing sets as used for Model 1 (80:20 split, `random_state=151`).
-- Hyperparameter tuning:
-  - `max_depth`: Limits the depth of the tree to prevent overfitting.
-  - `min_samples_split`: Minimum number of samples required to split a node.
-  - `min_samples_leaf`: Minimum number of samples required to be in a leaf node.
-- Evaluated using Mean Squared Error (MSE) on training and testing sets.
+The Decision Tree Regressor was introduced to address non-linear relationships in the dataset that the Linear Regression model could not capture. Its purpose was to improve prediction accuracy by modeling complex interactions between features. The dataset was split into training and testing sets using the same 80:20 ratio and random_state=151 as Model 1 for consistency. Hyperparameter tuning was performed to optimize the model, focusing on parameters such as max_depth to control tree depth and prevent overfitting, min_samples_split to determine the minimum number of samples required to split a node, and min_samples_leaf to specify the minimum number of samples required in a leaf node. The model’s performance was evaluated using Mean Squared Error (MSE) on both training and testing datasets, ensuring a robust assessment of its predictive capabilities.
 
 
 ### Model 3: Random Forest Regressor
 
-#### Overview
-- Introduced to reduce overfitting and improve generalization compared to the Decision Tree model.
-- Purpose: Leverage an ensemble approach to better capture non-linear relationships and variability in the dataset.
-
-#### Implementation Details
-- Dataset: Same training and testing sets as used for previous models (80:20 split, `random_state=151`).
-- Hyperparameter tuning:
-  - Used `GridSearchCV` on a 10% random sample of the training data to optimize:
-    - `n_estimators`: Number of trees in the forest.
-    - `max_depth`: Maximum depth of each tree.
-    - `min_samples_split`: Minimum number of samples required to split a node.
-    - `min_samples_leaf`: Minimum number of samples required in a leaf node.
-  - Identified the best hyperparameters using 3-fold cross-validation.
-- Trained the final model on the full dataset using the best parameters from GridSearchCV.
-- Evaluated performance using Mean Squared Error (MSE) on both training and testing sets.
+The Random Forest Regressor was introduced to improve generalization and reduce overfitting compared to the Decision Tree model. By leveraging an ensemble approach, this model aimed to better capture non-linear relationships and variability within the dataset. The dataset was split into training and testing subsets using the same 80:20 ratio and random_state=151 as the previous models. Hyperparameter tuning was conducted using GridSearchCV on a 10% random sample of the training data, optimizing parameters such as n_estimators (number of trees in the forest), max_depth (maximum depth of each tree), min_samples_split (minimum samples required to split a node), and min_samples_leaf (minimum samples required in a leaf node). The best hyperparameters were identified using 3-fold cross-validation. The final model was then trained on the full training dataset using these optimized parameters. Performance was evaluated on both training and testing datasets using Mean Squared Error (MSE), providing insights into the model’s ability to generalize and predict effectively.
 
 
 ## Results
