@@ -19,6 +19,13 @@ This scatter plot illustrates the relationship between trip distance (in miles) 
 ### Figure 2: Fare Amount vs. Pickup Location (Filtered)
 ![Screenshot 2024-12-08 at 10 26 55 AM](https://github.com/user-attachments/assets/1ca00f54-6123-4275-afc7-1c9f9c72a6ce)
 
+This scatter plot shows fare amounts across different pickup location IDs. The data highlights clustering trends, where certain locations (e.g., high-demand areas like airports) correspond to higher average fares. The wide range of fare amounts at specific pickup locations suggests variability influenced by trip distance, time of day, or other factors.
+
+### Figure 3: Correlation Heatmap of Numerical Features
+![Screenshot 2024-12-08 at 10 27 33 AM](https://github.com/user-attachments/assets/7e3e09cd-7dac-4b18-8919-55c0450c904f)
+
+The heatmap provides a visual summary of the correlations among numerical features in the dataset. Notable relationships include a strong positive correlation between fare_amount and total_amount, indicating their dependency. Moderate correlations are also observed between trip_distance and fare-related variables, reflecting the role of distance in fare calculations. Other features, such as payment_type and VendorID, exhibit weaker or negligible correlations with fare-related attributes. This visualization helps identify the most influential features for modeling.
+
 
 ### Data Preprocessing
 
