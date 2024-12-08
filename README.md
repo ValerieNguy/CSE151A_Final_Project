@@ -149,30 +149,6 @@ Lastly, the Random Forest model had a mean squared error of 5.20 on the training
 - limitations
 - fitting graph stuff
 
-### Data Exploration
-
-
-
-### Preprocessing
-
-
-
-### Model 1: Linear Regression
-
-
-
-### Model 2: Decision Tree
-
-
-
-### Model 3: Random Forest
-
-
-
-## Conclusion
-
-- what could have been done differently?
-- what could be done moving forward/with more time?
 
 ## Statement of Collaboration
 
