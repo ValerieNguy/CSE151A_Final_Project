@@ -130,8 +130,6 @@ We decided to pivot away from the Linear Regression model and into a Decision Tr
 Lastly, the Random Forest model had a mean squared error of 5.20 on the training set and 5.73 on the test set. On the test data, this model had 937495 correct predictions, 126133 false positives, and 68734 false negatives. A bar chart of these counts is displayed below for visualization:
 ![image](https://github.com/user-attachments/assets/650db28e-9988-4c61-b289-385e4a81033d)
 
-## Conclusion
-
 
 ## Discussion
 
@@ -140,6 +138,10 @@ Lastly, the Random Forest model had a mean squared error of 5.20 on the training
   - what can be extrapolated from results?
 - limitations
 - fitting graph stuff
+
+
+## Conclusion
+
 
 
 ## Statement of Collaboration
