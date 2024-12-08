@@ -1,4 +1,4 @@
-# NYC Taxi Fare Prediction: A Comparative Analysis of Regression Models
+# NYC Taxi Fare Prediction
 
 ## Introduction
 Our project focuses on predicting taxi fares using the NYC Taxi Fare dataset and we choose this topic to solve real-world relevance and the potential to address a common frustration among riders espcially with unpredictable fare pricing. In Texi services like Uber and Lyft, fares often fluctuate dramatically, especially in high-demand areas like airports. This inconsistency can make it difficult for users to plan trips or trust the pricing system. By building a predictive model, we aim to reduce this unpredictability and provide riders with better insights into fare expectations.
