@@ -98,11 +98,12 @@ To prepare the dataset for modeling, we performed the following preprocessing st
 #### Implementation Details
 - Dataset: Same training and testing sets as used for previous models (80:20 split, `random_state=151`).
 - Hyperparameter tuning:
-  - Used `GridSearchCV` to optimize:
+  - Used `GridSearchCV` on a 10% random sample of the training data to optimize:
     - `n_estimators`: Number of trees in the forest.
     - `max_depth`: Maximum depth of each tree.
     - `min_samples_split`: Minimum number of samples required to split a node.
     - `min_samples_leaf`: Minimum number of samples required in a leaf node.
+  - Identified the best hyperparameters using 3-fold cross-validation.
 - Trained the final model on the full dataset using the best parameters from GridSearchCV.
 - Evaluated performance using Mean Squared Error (MSE) on both training and testing sets.
 
