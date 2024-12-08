@@ -23,24 +23,6 @@ Preliminary analysis revealed:
 - Negative correlations between some vendor identifiers and additional charges.
 - Outliers in key features such as trip_distance and total_amount.
 
-### Data Exploration
-
-The NYC Taxi Fare dataset contains approximately 6.4 million observations and 18 features. The key features include:
-
-- **VendorID**: Identifier for the taxi vendor or service provider.  
-- **tpep_pickup_datetime** and **tpep_dropoff_datetime**: Timestamps for trip start and end.  
-- **passenger_count**: Number of passengers in the taxi.  
-- **trip_distance**: Total distance of the trip.  
-- **fare_amount**: Base fare amount.  
-- **total_amount**: Total fare amount, including all surcharges.  
-- **payment_type**: Method of payment (e.g., cash, card).  
-
-#### Findings
-- Strong correlations were observed between fare-related features such as `fare_amount`, `total_amount`, and `tip_amount`.
-- Negative correlations were noted between certain vendor identifiers (`VendorID`) and extra charges, as well as between `payment_type` and `tip_amount`.
-- Potential outliers were identified in features such as `trip_distance`, `fare_amount`, `extra`, and `total_amount`.
-
-
 
 ### Data Preprocessing
 
