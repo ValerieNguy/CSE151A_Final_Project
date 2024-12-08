@@ -11,6 +11,10 @@ What makes this project exciting is the opportunity to leverage machine learning
 ### Data Exploration
 The NYC Taxi Fare dataset comprises approximately 6.4 million observations and 18 features, providing comprehensive information on taxi rides in New York City. Key features include VendorID, which identifies the taxi vendor or service provider; tpep_pickup_datetime and tpep_dropoff_datetime, which record the trip start and end timestamps; passenger_count, indicating the number of passengers; trip_distance, which measures the distance traveled; fare_amount, representing the base fare amount; total_amount, which includes surcharges; and payment_type, indicating the payment method (e.g., cash or card). A detailed preliminary analysis revealed strong correlations among fare-related components such as fare_amount, total_amount, and tip_amount, suggesting consistency in fare calculations. The dataset contains approximately 327,205 missing values across various columns, including VendorID and passenger_count. Significant outliers were identified in key features, such as an exceptionally high trip distance of 210,240.07 miles and a maximum total fare amount of $4,265, both of which highlight the need for careful preprocessing before model training.
 
+### Figure 1: Fare Amount vs. Trip Distance (Filtered)
+![Fare Amount vs. Trip Distance](![Screenshot 2024-12-08 at 10 26 43 AM](https://github.com/user-attachments/assets/5c477573-2553-4115-a229-3b6eb1034d55))
+
+
 
 
 ### Data Preprocessing
