@@ -23,8 +23,6 @@ Preliminary analysis revealed:
 - Negative correlations between some vendor identifiers and additional charges.
 - Outliers in key features such as trip_distance and total_amount.
 
-** summarize/describe methods only, 
-
 ### Data Exploration
 
 The NYC Taxi Fare dataset contains approximately 6.4 million observations and 18 features. The key features include:
