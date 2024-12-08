@@ -23,23 +23,78 @@ The NYC Taxi Fare dataset contains approximately 6.4 million observations and 18
 - Negative correlations were noted between certain vendor identifiers (`VendorID`) and extra charges, as well as between `payment_type` and `tip_amount`.
 - Potential outliers were identified in features such as `trip_distance`, `fare_amount`, `extra`, and `total_amount`.
 
-#### Figures
-*(Placeholder: Correlation heatmap between features highlighting key relationships.)*
 
-*(Code snippet for initial data exploration)*  
-```python
-import pandas as pd
-import matplotlib.pyplot as plt
+### Data Preprocessing
 
-# Load the dataset
-df = pd.read_csv("nyc_taxi_data.csv")
+To prepare the dataset for modeling, we performed the following preprocessing steps:
 
-# Display dataset summary
-print(df.info())
+#### 1. Handling Missing Values
+- Identified ~300,000 rows (~1% of the dataset) with missing or null values.
+- Dropped rows with null values to avoid introducing bias.
 
-# Display feature correlations
-corr = df.corr()
-plt.imshow(corr, cmap='coolwarm', interpolation='none')
-plt.colorbar()
-plt.title('Feature Correlation Heatmap')
-plt.show()
+#### 2. Removing Invalid Entries
+- Removed rows with nonsensical or invalid data:
+  - **RatecodeID = 99**: Unknown rate codes (~2% of observations).
+  - **payment_type** not in `{1, 2}`: Excluded unsupported payment types.
+  - **total_amount ≤ 0**: Negative or zero fare amounts.
+  - **trip_distance ≤ 0**: Negative or zero trip distances.
+
+#### 3. Outlier Removal
+- Filtered extreme values:
+  - **trip_distance** capped at 50 miles.
+  - **total_amount** capped at $500.
+- Applied z-score filtering (±3) to remove additional outliers from `trip_distance` and `passenger_count`.
+
+#### 4. Normalization and Scaling
+- Standardized numerical features (`trip_distance`, `fare_amount`, `total_amount`) using StandardScaler to ensure consistent weighting during model training.
+
+#### 5. Categorical Encoding
+- Applied one-hot encoding to categorical features (`VendorID`, `RatecodeID`, `payment_type`) to prepare the dataset for machine learning models.
+
+
+
+### Model 1: Linear Regression
+
+#### Overview
+- Baseline model used to predict `total_amount` from selected features.
+- Purpose: Establish a reference for comparison with more complex models.
+
+#### Implementation Details
+- Split the dataset into training and testing sets using an 80:20 ratio (`random_state=151` for reproducibility).
+- Trained a Linear Regression model with default hyperparameters.
+- Evaluated performance using Mean Squared Error (MSE) on both training and testing sets.
+
+
+
+### Model 2: Decision Tree Regressor
+
+#### Overview
+- Introduced to capture non-linear relationships in the dataset that Linear Regression could not address.
+- Purpose: Improve prediction accuracy by modeling complex interactions between features.
+
+#### Implementation Details
+- Dataset: Same training and testing sets as used for Model 1 (80:20 split, `random_state=151`).
+- Hyperparameter tuning:
+  - `max_depth`: Limits the depth of the tree to prevent overfitting.
+  - `min_samples_split`: Minimum number of samples required to split a node.
+  - `min_samples_leaf`: Minimum number of samples required to be in a leaf node.
+- Evaluated using Mean Squared Error (MSE) on training and testing sets.
+
+
+
+### Model 3: Random Forest Regressor
+
+#### Overview
+- Introduced to reduce overfitting and improve generalization compared to the Decision Tree model.
+- Purpose: Leverage an ensemble approach to better capture non-linear relationships and variability in the dataset.
+
+#### Implementation Details
+- Dataset: Same training and testing sets as used for previous models (80:20 split, `random_state=151`).
+- Hyperparameter tuning:
+  - Used `GridSearchCV` to optimize:
+    - `n_estimators`: Number of trees in the forest.
+    - `max_depth`: Maximum depth of each tree.
+    - `min_samples_split`: Minimum number of samples required to split a node.
+    - `min_samples_leaf`: Minimum number of samples required in a leaf node.
+- Trained the final model on the full dataset using the best parameters from GridSearchCV.
+- Evaluated performance using Mean Squared Error (MSE) on both training and testing sets.
