@@ -24,6 +24,7 @@ Preliminary analysis revealed:
 - **Outliers**: Detected in trip_distance (max: 210,240.07 miles) and total_amount (max: $4,265).
 
 
+
 ### Data Preprocessing
 
 To prepare the dataset for modeling, we performed the following preprocessing steps:
@@ -43,13 +44,21 @@ To prepare the dataset for modeling, we performed the following preprocessing st
 - Filtered extreme values:
   - **trip_distance** capped at 50 miles.
   - **total_amount** capped at $500.
-- Applied z-score filtering (±3) to remove additional outliers from `trip_distance` and `passenger_count`.
+- Utilized z-score filtering (±3) to remove additional outliers from trip_distance and passenger_count.
 
 #### 4. Normalization and Scaling
 - Standardized numerical features (`trip_distance`, `fare_amount`, `total_amount`) using StandardScaler to ensure consistent weighting during model training.
 
-#### 5. Categorical Encoding
+#### 5. Feature Selection
+- Retained only relevant columns: `total_amount`, `VendorID`, `RatecodeID`, `payment_type`, `passenger_count`, `trip_distance`.
+
+#### 6. Categorical Encoding
 - Applied one-hot encoding to categorical features (`VendorID`, `RatecodeID`, `payment_type`) to prepare the dataset for machine learning models.
+
+
+
+
+
 
 
 
