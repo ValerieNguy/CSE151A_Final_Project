@@ -9,7 +9,7 @@ What makes this project exciting is the opportunity to leverage machine learning
 ## Methods
 
 ### Data Exploration
-The NYC Taxi Fare dataset contains approximately 6.4 million observations and 18 features. The key features include:
+The NYC Taxi Fare dataset contains approximately 6.4 million (6,405,008) observations and 18 features. The key features include:
 - `VendorID`: Identifier for the taxi vendor or service provider.
 - `tpep_pickup_datetime` and `tpep_dropoff_datetime`: Timestamps for trip start and end.
 - `passenger_count`: Number of passengers.
