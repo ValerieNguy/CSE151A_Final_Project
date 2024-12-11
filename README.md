@@ -117,4 +117,4 @@ Regardless, this endeavor served as a solid groundwork for exploring foundationa
 
 **Valerie Nguyen (Title):** [insert contribution details here].
 
-**Nicholas Jumaoas (Title):** [insert contribution details here].
+**Nicholas Jumaoas (Title):** performed data preprocessing, implemented Model 1, organized & edited final report along with contributions to methods, discussion, and conclusion sections.
