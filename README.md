@@ -10,39 +10,23 @@ What makes this project exciting is the opportunity to leverage machine learning
 
 ### Data Exploration
 
-Along with basic metadata taken from the Kaggle listing, we also used `pandas` to load the data as a `Dataframe` to conduct simple exploration of aspects such as value ranges and missing/null values by feature. We then removed outliers from the `max_trip_distance` and `max_fare_amount` columns using thresholds of fifty miles and five hundred dollars, respectively. This filtered data was then used to create several data visualizations through `matplotlib.pyplot`, such as the 
-
-### Figure 1: Fare Amount vs. Trip Distance 
-
-
-
-### Figure 2: Fare Amount vs. Pickup Location 
-
-
-
-### Figure 3: Pair Plot of Selected Variables 
-
-
-
-### Figure 4: Correlation Heatmap of Numerical Features
-
-
+Along with basic metadata taken from the Kaggle listing, we also used `pandas` to load the data as a `Dataframe` to conduct simple exploration of aspects such as value ranges and missing/null values by feature. We then removed outliers from the `trip_distance` and `fare_amount` columns using thresholds of fifty miles and five hundred dollars, respectively. This filtered data was then used to create several data visualizations through `matplotlib.pyplot`, such as the "Fare Amount vs. Trip Distance" and "Fare Amount vs. Pickup Location" figures that are discussed in further detail later. We also used `seaborn` to create a pairplot and heatmap of relevant columns. 
 
 ### Data Preprocessing
 
-
+Working within `pandas`, we dropped null values before converting features `VendorID`, `passenger_count`, `RatecodeID`, `payment_type` from type `float64` to type `int64`, as well as ensuring that the `tpep_pickup_datetime` and `tpep_dropoff_datetime` columns were stored in `datetime` format. Unknown/placeholder values such as negative fare values were also dropped from features `RatecodeID`, `payment_type`, `total_amount`, and `trip_distance`, before pruning redundant or irrelevant columns. We then used `sklearn`'s `StandardScaler` to standardize `passenger_count` and `trip_distance` before dropping any outliers that were more than three standard deviations away from the mean, as well as dropping any total fare amount greater than five hundred dollars from the target variable `total_amount`. Lastly, nominal features `VendorID`, `RatecodeID`, and `payment_type` were one-hot-encoded using the `get_dummies` method from `pandas`.
 
 ### Model 1: Linear Regression
 
-
+Working within `sklearn`, `train_test_split` was used to divide our data into training and testing sets with an 80:20 split. With columns `total_amount`, `VendorID`, `RatecodeID`, `payment_type`, `passenger_count`, and `trip_distance` as input data, a `LinearRegression` object was used to fit a linear regression model to predict `total_amount`. Training and testing MSE were calculated using the native `sklearn` method. Defining a correct prediction as any prediction that fell within 10% of its actual value, we again used `pyplot` to visualize the model's correct predictions in comparison to its false positives and false negatives, as well as a fitting graph visualizing the distribution of predicted values compared to actual values.
 
 ### Model 2: Decision Tree Regressor
 
-
+Once again working within `sklearn`, the data was split in the same way but passed into a `DecisionTreeRegressor` object in order to fit a decision tree to predict `total_amount`. Additionally, `GridSearchCV` was used to tune hyperparameters `max_depth`, `min_samples_split`, and `min_samples_leaf` through five-fold cross-validation with negative MSE used as the evaluation metric. The best hyperparameters were determined to be `max_depth = 10`, `min_samples_split = 4`, and `min_samples_leaf = 10`. Result analysis of MSE, prediction comparison, and fitting graph was performed in the same way as described in Model 1.
 
 ### Model 3: Random Forest Regressor
 
-
+Expanding upon the decision tree model, we conducted hyperparameter tuning for a `RandomForestRegressor` object with the additional hyperparameter `n_estimators`. We also used `SelectKBest` to implement feature selection, selecting the top five most relevant features with the ANOVA F-statistic as the evaluation metric. The tuning process was slightly scaled down to use three-fold cross validation and on 30% of the training data, randomly subsampled using the `sample` method from `pandas`. The best hyperparameters were determined to be `max_depth = 10`, `min_samples_split = 5`, `min_samples_leaf = 2`, and `n_estimators = 100`. Result analysis of MSE, prediction comparison, and fitting graph was performed in the same way as described in Model 1.
 
 ## Results
 
