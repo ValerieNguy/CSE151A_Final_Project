@@ -113,7 +113,7 @@ Regardless, this endeavor served as a solid groundwork for exploring foundationa
 
 ## Statement of Collaboration
 
-**Heesoon Kang (Title):** [insert contribution details here].
+**Heesoon Kang (Title):** Performed data exploration / preprocessing, helped with write up for all milestones, and contributed to models / data exploration writeup of final report
 
 **Valerie Nguyen (Title):** writeup for data exploration/preprocessing, implemented Model 2, contributions to results section of final report.
 
