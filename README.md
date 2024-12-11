@@ -8,9 +8,11 @@ What makes this project exciting is the opportunity to leverage machine learning
 
 ## Methods
 
+The implementation of the methods discussed in this section can be viewed in full detail in [this Jupyter Notebook](https://github.com/ValerieNguy/CSE151A_Final_Project/blob/Final-Submission/CSE%20151A%20Milestone%204.ipynb).
+
 ### Data Exploration
 
-Along with basic metadata taken from the Kaggle listing, we also used `pandas` to load the data as a `Dataframe` to conduct simple exploration of aspects such as value ranges and missing/null values by feature. We then removed outliers from the `trip_distance` and `fare_amount` columns using thresholds of fifty miles and five hundred dollars, respectively. This filtered data was then used to create several data visualizations through `matplotlib.pyplot`, such as the "Fare Amount vs. Trip Distance" and "Fare Amount vs. Pickup Location" figures that are discussed in further detail later. We also used `seaborn` to create a pairplot and heatmap of relevant columns. 
+Along with basic metadata taken from the [Kaggle listing](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers), we also used `pandas` to load the data as a `Dataframe` to conduct simple exploration of aspects such as value ranges and missing/null values by feature. We then removed outliers from the `trip_distance` and `fare_amount` columns using thresholds of fifty miles and five hundred dollars, respectively. This filtered data was then used to create several data visualizations through `matplotlib.pyplot`, such as the [Fare Amount vs. Trip Distance](#figure-1-fare-amount-vs-trip-distance) and "Fare Amount vs. Pickup Location" figures discussed in further detail later. We also used `seaborn` to create a pairplot and heatmap of relevant columns. 
 
 ### Data Preprocessing
 
@@ -26,17 +28,9 @@ Once again working within `sklearn`, the data was split in the same way but pass
 
 ### Model 3: Random Forest Regressor
 
-Expanding upon the decision tree model, we conducted hyperparameter tuning for a `RandomForestRegressor` object with the additional hyperparameter `n_estimators`. We also used `SelectKBest` to implement feature selection, selecting the top five most relevant features with the ANOVA F-statistic as the evaluation metric. The tuning process was slightly scaled down to use three-fold cross validation and on 30% of the training data, randomly subsampled using the `sample` method from `pandas`. The best hyperparameters were determined to be `max_depth = 10`, `min_samples_split = 5`, `min_samples_leaf = 2`, and `n_estimators = 100`. Result analysis of MSE, prediction comparison, and fitting graph was performed in the same way as described in Model 1.
+Expanding upon the decision tree model, we conducted hyperparameter tuning for a `RandomForestRegressor` object with the additional hyperparameter `n_estimators`. We also used `SelectKBest` to implement feature selection, selecting the top five most relevant features with the ANOVA F-statistic as the evaluation metric. The tuning process was slightly scaled down to use three-fold cross validation on 30% of the training data, randomly subsampled using the `sample` method from `pandas`. The best hyperparameters were determined to be `max_depth = 10`, `min_samples_split = 5`, `min_samples_leaf = 2`, and `n_estimators = 100`. Result analysis of MSE, prediction comparison, and fitting graph was performed in the same way as described in Model 1.
 
 ## Results
-
-### Summary Table of Model Performance
-
-| Model              | Training MSE | Testing MSE  |
-|--------------------|--------------|--------------|
-| **Linear Regression**  | 11.18        |  11.79     |
-| **Decision Tree**      | 8.80         | 9.68     |
-| **Random Forest**      | 5.20         | 5.73     |
 
 ### Model 1: Linear Regression
 The Linear Regression model achieved an accuracy of 11.17 mean squared error on the training set and 11.79 mean squared error on the test set. Using our method for determining if a prediction was correct or not, on the test data, we got 600294 correct predictions, 318063 false positives, and 216183 false negatives. For visualization, a bar chat of the prediction counts is as follows:
@@ -50,6 +44,13 @@ We decided to pivot away from the Linear Regression model and into a Decision Tr
 Lastly, the Random Forest model had a mean squared error of 5.20 on the training set and 5.73 on the test set. On the test data, this model had 937495 correct predictions, 126133 false positives, and 68734 false negatives. A bar chart of these counts is displayed below for visualization:
 ![image](https://github.com/user-attachments/assets/650db28e-9988-4c61-b289-385e4a81033d)
 
+### Summary Table of Model Performance
+
+| Model              | Training MSE | Testing MSE  |
+|--------------------|--------------|--------------|
+| **Linear Regression**  | 11.18        |  11.79     |
+| **Decision Tree**      | 8.80         | 9.68     |
+| **Random Forest**      | 5.20         | 5.73     |
 
 ## Discussion
 
