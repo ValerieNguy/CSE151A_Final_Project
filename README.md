@@ -1,7 +1,7 @@
 # NYC Taxi Fare Prediction
 
 ## Introduction
-Our project focuses on predicting taxi fares using the NYC Taxi Fare dataset and we choose this topic to solve real-world relevance and the potential to address a common frustration among riders espcially with unpredictable fare pricing. In Texi services like Uber and Lyft, fares often fluctuate dramatically, especially in high-demand areas like airports. This inconsistency can make it difficult for users to plan trips or trust the pricing system. By building a predictive model, we aim to reduce this unpredictability and provide riders with better insights into fare expectations.
+Our project focuses on predicting taxi fares using the NYC Taxi Fare dataset and we choose this topic to solve real-world relevance and the potential to address a common frustration among riders espcially with unpredictable fare pricing. In taxi services like Uber and Lyft, fares often fluctuate dramatically, especially in high-demand areas like airports. This inconsistency can make it difficult for users to plan trips or trust the pricing system. By building a predictive model, we aim to reduce this unpredictability and provide riders with better insights into fare expectations.
 
 What makes this project exciting is the opportunity to leverage machine learning to solve a tangible problem. Accurate fare predictions are not only beneficial for riders but also for service providers. For users, a predictive model offers transparency and allows them to determine whether a given fare is reasonable. For providers, the model can inform dynamic pricing algorithms, ensuring fares are competitive yet fair. On a broader scale, improving fare predictability fosters trust in transportation platforms, reduces anxiety around trip costs, and creates a more equitable system for both consumers and drivers. Ultimately, this work highlights how data-driven solutions can transform user experiences and operational strategies in transportation services.
 
@@ -12,7 +12,7 @@ The implementation of the methods discussed in this section can be viewed in ful
 
 ### Data Exploration
 
-Along with basic metadata taken from the [Kaggle listing](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers), we also used `pandas` to load the data as a `Dataframe` to conduct simple exploration of aspects such as value ranges and missing/null values by feature. We then removed outliers from the `trip_distance` and `fare_amount` columns using thresholds of fifty miles and five hundred dollars, respectively. This filtered data was then used to create several data visualizations through `matplotlib.pyplot`, such as the [Fare Amount vs. Trip Distance](#figure-1-fare-amount-vs-trip-distance) and "Fare Amount vs. Pickup Location" figures discussed in further detail later. We also used `seaborn` to create a pairplot and heatmap of relevant columns. 
+Along with basic metadata taken from the [Kaggle listing](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers), we also used `pandas` to load the data as a `Dataframe` to conduct simple exploration of aspects such as value ranges and missing/null values by feature. We then removed outliers from the `trip_distance` and `fare_amount` columns using thresholds of fifty miles and five hundred dollars, respectively. This filtered data was then used to create several data visualizations through `matplotlib.pyplot`, such as the [Fare Amount vs. Trip Distance](#figure-1-fare-amount-vs-trip-distance) and [Fare Amount vs. Pickup Location](#figure-2-fare-amount-vs-pickup-location) figures discussed in further detail later. We also used `seaborn` to create a [pairplot](#figure-3-pair-plot-of-selected-variables) and [heatmap](#figure-4-correlation-heatmap-of-numerical-features) of relevant columns. 
 
 ### Data Preprocessing
 
@@ -20,15 +20,15 @@ Working within `pandas`, we dropped null values before converting features `Vend
 
 ### Model 1: Linear Regression
 
-Working within `sklearn`, `train_test_split` was used to divide our data into training and testing sets with an 80:20 split. With columns `total_amount`, `VendorID`, `RatecodeID`, `payment_type`, `passenger_count`, and `trip_distance` as input data, a `LinearRegression` object was used to fit a linear regression model to predict `total_amount`. Training and testing MSE were calculated using the native `sklearn` method. Defining a correct prediction as any prediction that fell within 10% of its actual value, we again used `pyplot` to visualize the model's correct predictions in comparison to its false positives and false negatives, as well as a fitting graph visualizing the distribution of predicted values compared to actual values.
+Working within `sklearn`, `train_test_split` was used to divide our data into training and testing sets with an 80:20 split. With columns `total_amount`, `VendorID`, `RatecodeID`, `payment_type`, `passenger_count`, and `trip_distance` as input data, a `LinearRegression` object was used to fit a linear regression model to predict `total_amount`. For [result analysis](#model-1-linear-regression-1), training and testing MSE were calculated using the native `sklearn` method. Defining a correct prediction as any prediction that fell within 10% of its actual value, we again used `pyplot` to visualize the model's correct predictions in comparison to its false positives and false negatives, as well as a fitting graph visualizing the distribution of predicted values compared to actual values.
 
-### Model 2: Decision Tree Regressor
+### Model 2: Decision Tree
 
-Once again working within `sklearn`, the data was split in the same way but passed into a `DecisionTreeRegressor` object in order to fit a decision tree to predict `total_amount`. Additionally, `GridSearchCV` was used to tune hyperparameters `max_depth`, `min_samples_split`, and `min_samples_leaf` through five-fold cross-validation with negative MSE used as the evaluation metric. The best hyperparameters were determined to be `max_depth = 10`, `min_samples_split = 4`, and `min_samples_leaf = 10`. Result analysis of MSE, prediction comparison, and fitting graph was performed in the same way as described in Model 1.
+Once again working within `sklearn`, the data was split in the same way but passed into a `DecisionTreeRegressor` object in order to fit a decision tree to predict `total_amount`. Additionally, `GridSearchCV` was used to tune hyperparameters `max_depth`, `min_samples_split`, and `min_samples_leaf` through five-fold cross-validation with negative MSE used as the evaluation metric. The best hyperparameters were determined to be `max_depth = 10`, `min_samples_split = 4`, and `min_samples_leaf = 10`. [Result analysis](#model-2-decision-tree-1) of MSE, prediction comparison, and fitting graph was performed in the same way as described in Model 1.
 
-### Model 3: Random Forest Regressor
+### Model 3: Random Forest
 
-Expanding upon the decision tree model, we conducted hyperparameter tuning for a `RandomForestRegressor` object with the additional hyperparameter `n_estimators`. We also used `SelectKBest` to implement feature selection, selecting the top five most relevant features with the ANOVA F-statistic as the evaluation metric. The tuning process was slightly scaled down to use three-fold cross validation on 30% of the training data, randomly subsampled using the `sample` method from `pandas`. The best hyperparameters were determined to be `max_depth = 10`, `min_samples_split = 5`, `min_samples_leaf = 2`, and `n_estimators = 100`. Result analysis of MSE, prediction comparison, and fitting graph was performed in the same way as described in Model 1.
+Expanding upon the decision tree model, we conducted hyperparameter tuning for a `RandomForestRegressor` object with the additional hyperparameter `n_estimators`. We also used `SelectKBest` to implement feature selection, selecting the top five most relevant features with the ANOVA F-statistic as the evaluation metric. The tuning process was slightly scaled down to use three-fold cross validation on 30% of the training data, randomly subsampled using the `sample` method from `pandas`. The best hyperparameters were determined to be `max_depth = 10`, `min_samples_split = 5`, `min_samples_leaf = 2`, and `n_estimators = 100`. [Result analysis](#model-3-random-forest-1) of MSE, prediction comparison, and fitting graph was performed in the same way as described in Model 1.
 
 ## Results
 
@@ -90,10 +90,6 @@ The heatmap provides a visual summary of the correlations among numerical featur
 To prepare the dataset for modeling, several preprocessing steps were performed to ensure data quality and suitability for machine learning. First, approximately 300,000 rows (~1% of the dataset) with missing or null values were identified and dropped to maintain data integrity and avoid introducing bias. Next, invalid entries were removed, including rows with RatecodeID = 99 (unknown rate codes, ~2% of observations), unsupported payment_type values not in {1, 2}, and rows with negative or zero values in total_amount or trip_distance. To handle outliers, extreme values were capped with thresholds, limiting trip_distance to 50 miles and total_amount to $500. Additional outliers in trip_distance and passenger_count were filtered using z-score thresholds (±3). For consistency, numerical features such as trip_distance, fare_amount, and total_amount were standardized using StandardScaler. Only relevant columns, including total_amount, VendorID, RatecodeID, payment_type, passenger_count, and trip_distance, were retained for model training. Finally, categorical features like VendorID, RatecodeID, and payment_type were converted into machine-readable formats using one-hot encoding, completing the preprocessing pipeline.
 
 
-
-
-
-
 ### Model 1: Linear Regression
 
 The first model implemented was a Linear Regression model, serving as a baseline to predict total_amount based on the selected features. The purpose of this model was to establish a reference point for evaluating the performance of more complex models. The dataset was split into training and testing subsets using an 80:20 ratio, with a random_state of 151 to ensure reproducibility. The model was trained with default hyperparameters and evaluated using Mean Squared Error (MSE) on both training and testing sets. This baseline provides a straightforward yet effective comparison for subsequent models.
@@ -109,11 +105,16 @@ The Decision Tree Regressor was introduced to address non-linear relationships i
 The Random Forest Regressor was introduced to improve generalization and reduce overfitting compared to the Decision Tree model. By leveraging an ensemble approach, this model aimed to better capture non-linear relationships and variability within the dataset. The dataset was split into training and testing subsets using the same 80:20 ratio and random_state=151 as the previous models. Hyperparameter tuning was conducted using GridSearchCV on a 10% random sample of the training data, optimizing parameters such as n_estimators (number of trees in the forest), max_depth (maximum depth of each tree), min_samples_split (minimum samples required to split a node), and min_samples_leaf (minimum samples required in a leaf node). The best hyperparameters were identified using 3-fold cross-validation. The final model was then trained on the full training dataset using these optimized parameters. Performance was evaluated on both training and testing datasets using Mean Squared Error (MSE), providing insights into the model’s ability to generalize and predict effectively.
 
 
-
 ## Conclusion
 
+Although we are quite satisfied by the results that we were able to achieve, we do wish that we had time to experiment with implementing other models, such as neural networks. While the size and scope of this dataset is not suitable for a model utilizing a transformer architecture, it would be interesting to see if a transformer-based model would uncover more subtle trends within the data, perhaps with more nebulous features to take advantage of the model's enhanced interpretive capabilities. In a similar vein, testing model implementation at scale using a larger dataset and something like SDSC is also an intriguing prospect that we unfortunately opted against pursuing. 
 
+Regardless, this endeavor served as a solid groundwork for exploring foundational machine learning models using commonly used packages, with a particular emphasis on `sklearn`. We also gained insight into the factors influencing fare pricing, which will be increasingly more valuable as rideshare services continue to become a mainstay of urban transportation. Moving forward, we hope to be able to leverage these machine learning concepts in future applications as the field develops further.
 
 ## Statement of Collaboration
 
+**Heesoon Kang (Title):** [insert contribution details here].
 
+**Valerie Nguyen (Title):** [insert contribution details here].
+
+**Nicholas Jumaoas (Title):** [insert contribution details here].
