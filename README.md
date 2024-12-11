@@ -115,6 +115,6 @@ Regardless, this endeavor served as a solid groundwork for exploring foundationa
 
 **Heesoon Kang (Title):** [insert contribution details here].
 
-**Valerie Nguyen (Title):** [insert contribution details here].
+**Valerie Nguyen (Title):** writeup for data exploration/preprocessing, implemented Model 2, contributions to results section of final report.
 
 **Nicholas Jumaoas (Title):** performed data preprocessing, implemented Model 1, organized & edited final report along with contributions to methods, discussion, and conclusion sections.
