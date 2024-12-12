@@ -33,24 +33,40 @@ Expanding upon the decision tree model, we conducted hyperparameter tuning for a
 ## Results
 
 ### Model 1: Linear Regression
-The Linear Regression model achieved an accuracy of 11.17 mean squared error on the training set and 11.79 mean squared error on the test set. Using our method for determining if a prediction was correct or not, on the test data, we got 600294 correct predictions, 318063 false positives, and 216183 false negatives. For visualization, a bar chat of the prediction counts is as follows:
+The Linear Regression model achieved an accuracy of 11.17 mean squared error on the training set and 11.79 mean squared error on the test set. Using our method for determining if a prediction was correct or not, on the test data, we got 600294 correct predictions, 318063 false positives, and 216183 false negatives for an accuracy of 0.53. For visualization, a bar chat of the prediction counts is as follows:
 ![image](https://github.com/user-attachments/assets/1da7c53c-82a1-4b08-97e4-1941d0f94859)
 
 ### Model 2: Decision Tree
-We decided to pivot away from the Linear Regression model and into a Decision Tree model. This model increased accuracy with a mean squared error of 8.80 on the training set and 9.68 on the test set. Decision Tree had 659422 correct predictions, 274316 false positives, and 200802 false negatives on the test data. These counts are visualized on the bar chart below:
+We decided to pivot away from the Linear Regression model and into a Decision Tree model. This model increased accuracy with a mean squared error of 8.80 on the training set and 9.68 on the test set. Decision Tree had 659422 correct predictions, 274316 false positives, and 200802 false negatives on the test data for an accuracy of 0.58. These counts are visualized on the bar chart below:
 ![image](https://github.com/user-attachments/assets/800b9788-5edc-4132-8127-c00c8b9b281e)
 
 ### Model 3: Random Forest
-Lastly, the Random Forest model had a mean squared error of 5.20 on the training set and 5.73 on the test set. On the test data, this model had 937495 correct predictions, 126133 false positives, and 68734 false negatives. A bar chart of these counts is displayed below for visualization:
+Lastly, the Random Forest model had a mean squared error of 5.20 on the training set and 5.73 on the test set. On the test data, this model had 937495 correct predictions, 126133 false positives, and 68734 false negatives for an accuracy of 0.83. A bar chart of these counts is displayed below for visualization:
 ![image](https://github.com/user-attachments/assets/650db28e-9988-4c61-b289-385e4a81033d)
 
-### Summary Table of Model Performance
+### Summary of Model Performance
 
-| Model              | Training MSE | Testing MSE  |
-|--------------------|--------------|--------------|
-| **Linear Regression**  | 11.18        |  11.79     |
-| **Decision Tree**      | 8.80         | 9.68     |
-| **Random Forest**      | 5.20         | 5.73     |
+For convenience, we have provided a table summarizing key model performance metrics, as well as a graph of our loss across our various model iterations, using mean squared error as our loss metric. From this, we can see that as we progressed throughout the quarter, we were able to reduce our loss with each subsequent model, with a reduction in of approximately 53% between the first and third models.
+
+
+<div align="center">
+  
+| Model              | Training MSE | Testing MSE  | Accuracy |
+|--------------------|--------------|--------------|----------|
+| **Linear Regression**  | 11.18        | 11.79    | 0.53     |
+| **Decision Tree**      | 8.80         | 9.68     | 0.58     |
+| **Random Forest**      | 5.20         | 5.73     | 0.83     |
+  
+  <em>Data visualization of loss reduction over model iteration</em>
+</div>
+
+<p align="center">
+  <br>
+  <img src="https://github.com/user-attachments/assets/fc43bb5b-5062-4fc9-bafd-419f3217f1b4" alt="loss_graph"/>
+    <br>
+    <em>Data visualization of loss reduction over model iteration</em>
+</p>
+
 
 ## Discussion
 
@@ -92,17 +108,15 @@ To prepare the dataset for modeling, several preprocessing steps were performed 
 
 ### Model 1: Linear Regression
 
-The first model implemented was a Linear Regression model, serving as a baseline to predict total_amount based on the selected features. The purpose of this model was to establish a reference point for evaluating the performance of more complex models. The dataset was split into training and testing subsets using an 80:20 ratio, with a random_state of 151 to ensure reproducibility. The model was trained with default hyperparameters and evaluated using Mean Squared Error (MSE) on both training and testing sets. This baseline provides a straightforward yet effective comparison for subsequent models.
-
+The first model implemented was a Linear Regression model, serving as a baseline to predict total_amount based on the selected features. The purpose of this model was to establish a reference point for evaluating the performance of more complex models. The dataset was split into training and testing subsets using an 80:20 ratio, with a random_state of 151 to ensure reproducibility. The model was trained with default hyperparameters and evaluated using Mean Squared Error (MSE) on both training and testing sets. Additionally, we used accuracy as an easily interpretable standard performance metric, since there is no extraordinary penalty for false positives or negatives that would incentivize us to use a more targeted metric like precision or recall. Although the linear regression model performed poorly in terms of loss and accuracy, its relatively small gap between training and testing MSE indicates a high degree of generalizability. This model provides a solid baseline as a straightforward yet effective comparison for subsequent models.
 
 ### Model 2: Decision Tree Regressor
 
-The Decision Tree Regressor was introduced to address non-linear relationships in the dataset that the Linear Regression model could not capture. Its purpose was to improve prediction accuracy by modeling complex interactions between features. The dataset was split into training and testing sets using the same 80:20 ratio and random_state=151 as Model 1 for consistency. Hyperparameter tuning was performed to optimize the model, focusing on parameters such as max_depth to control tree depth and prevent overfitting, min_samples_split to determine the minimum number of samples required to split a node, and min_samples_leaf to specify the minimum number of samples required in a leaf node. The model’s performance was evaluated using Mean Squared Error (MSE) on both training and testing datasets, ensuring a robust assessment of its predictive capabilities.
-
+The Decision Tree Regressor was introduced to address non-linear relationships in the dataset that the Linear Regression model could not capture. Its purpose was to improve prediction accuracy by modeling complex interactions between features. The dataset was split into training and testing sets using the same 80:20 ratio and random_state=151 as Model 1 for consistency. Hyperparameter tuning was performed to optimize the model, focusing on parameters such as max_depth to control tree depth and prevent overfitting, min_samples_split to determine the minimum number of samples required to split a node, and min_samples_leaf to specify the minimum number of samples required in a leaf node. The model’s performance was evaluated using Mean Squared Error (MSE) on both training and testing datasets, ensuring a robust assessment of its predictive capabilities. Although there was a noticeable drop in MSE and accuracy, the relative gap between training and testing MSE grew significantly, indicating the presence of overfitting, to which decision trees are known to be prone. While this was concerning, its reduced loss meant that this model showed promise as a viable means of predicting taxi fares.  
 
 ### Model 3: Random Forest Regressor
 
-The Random Forest Regressor was introduced to improve generalization and reduce overfitting compared to the Decision Tree model. By leveraging an ensemble approach, this model aimed to better capture non-linear relationships and variability within the dataset. The dataset was split into training and testing subsets using the same 80:20 ratio and random_state=151 as the previous models. Hyperparameter tuning was conducted using GridSearchCV on a 10% random sample of the training data, optimizing parameters such as n_estimators (number of trees in the forest), max_depth (maximum depth of each tree), min_samples_split (minimum samples required to split a node), and min_samples_leaf (minimum samples required in a leaf node). The best hyperparameters were identified using 3-fold cross-validation. The final model was then trained on the full training dataset using these optimized parameters. Performance was evaluated on both training and testing datasets using Mean Squared Error (MSE), providing insights into the model’s ability to generalize and predict effectively.
+To solve the problem of overfitting in Model 2, a Random Forest Regressor was introduced to improve generalization. By leveraging an ensemble approach, this model aimed to better capture non-linear relationships and variability within the dataset. The dataset was split into training and testing subsets using the same 80:20 ratio and random_state=151 as the previous models. Hyperparameter tuning was conducted using GridSearchCV on a 30% random sample of the training data, optimizing parameters such as n_estimators (number of trees in the forest), max_depth (maximum depth of each tree), min_samples_split (minimum samples required to split a node), and min_samples_leaf (minimum samples required in a leaf node). The best hyperparameters were identified using 3-fold cross-validation. These changes were made to reduce computational cost, since running this model took significantly longer due to the increased amount of possible hyperparameter combinations. The final model was then trained on the full training dataset using these optimized parameters. Performance was evaluated on both training and testing datasets using Mean Squared Error (MSE), providing insights into the model’s ability to generalize and predict effectively. This model exhibited the best performance of all our models by far in terms of both loss and accuracy, 
 
 
 ## Conclusion
@@ -113,8 +127,8 @@ Regardless, this endeavor served as a solid groundwork for exploring foundationa
 
 ## Statement of Collaboration
 
-**Heesoon Kang (Title):** Performed data exploration / preprocessing, helped with write up for all milestones, and contributed to models / data exploration writeup of final report
+**Heesoon Kang (Head Writer):** Performed data exploration, helped with write up for all milestones, and contributed to models / data exploration writeup of final report
 
-**Valerie Nguyen (Title):** writeup for data exploration/preprocessing, implemented Model 2, contributions to results section of final report.
+**Valerie Nguyen (Head Programmer):** Produced writeup for data exploration/preprocessing, implemented Models 2 and 3, contributed to results section of final report.
 
-**Nicholas Jumaoas (Title):** performed data preprocessing, implemented Model 1, organized & edited final report along with contributions to methods, discussion, and conclusion sections.
+**Nicholas Jumaoas (Head Coordinator):** Performed data preprocessing, implemented Model 1, organized & edited final report along with contributions to methods, results, discussion, and conclusion sections.
