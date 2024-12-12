@@ -8,7 +8,7 @@ What makes this project exciting is the opportunity to leverage machine learning
 
 ## Methods
 
-The implementation of the methods discussed in this section can be viewed in full detail in [this Jupyter Notebook](https://github.com/ValerieNguy/CSE151A_Final_Project/blob/Final-Submission/CSE%20151A%20Milestone%204.ipynb).
+The implementation of the methods discussed in this section can be viewed in full detail in [this Jupyter Notebook](https://github.com/ValerieNguy/CSE151A_Final_Project/blob/Final-Submission/CSE%20151A%20Final%20Submission.ipynb).
 
 ### Data Exploration
 
@@ -70,36 +70,28 @@ For convenience, we have provided a table summarizing key model performance metr
 
 ## Discussion
 
-- interpret model results
-  - good/bad? believable?
-  - what can be extrapolated from results?
-- limitations
-- fitting graph stuff
-
-
 ### Data Exploration
 The NYC Taxi Fare dataset comprises approximately 6.4 million observations and 18 features, providing comprehensive information on taxi rides in New York City. Key features include VendorID, which identifies the taxi vendor or service provider; tpep_pickup_datetime and tpep_dropoff_datetime, which record the trip start and end timestamps; passenger_count, indicating the number of passengers; trip_distance, which measures the distance traveled; fare_amount, representing the base fare amount; total_amount, which includes surcharges; and payment_type, indicating the payment method (e.g., cash or card). A detailed preliminary analysis revealed strong correlations among fare-related components such as fare_amount, total_amount, and tip_amount, suggesting consistency in fare calculations. The dataset contains approximately 327,205 missing values across various columns, including VendorID and passenger_count. Significant outliers were identified in key features, such as an exceptionally high trip distance of 210,240.07 miles and a maximum total fare amount of $4,265, both of which highlight the need for careful preprocessing before model training.
 
-### Figure 1: Fare Amount vs. Trip Distance 
+#### Figure 1: Fare Amount vs. Trip Distance 
 ![Screenshot 2024-12-08 at 10 26 43 AM](https://github.com/user-attachments/assets/5c477573-2553-4115-a229-3b6eb1034d55)
 
 This scatter plot illustrates the relationship between trip distance (in miles) and fare amount (in dollars) after filtering outliers. The data exhibits a generally positive trend, where longer trip distances correspond to higher fares. However, there is considerable variation, particularly for shorter trips, which could reflect differences in location, surcharges, or additional charges. Outliers in both fare amount and trip distance have been removed to focus on the core patterns.
 
-### Figure 2: Fare Amount vs. Pickup Location 
+#### Figure 2: Fare Amount vs. Pickup Location 
 ![Screenshot 2024-12-08 at 10 26 55 AM](https://github.com/user-attachments/assets/1ca00f54-6123-4275-afc7-1c9f9c72a6ce)
 
 This scatter plot shows fare amounts across different pickup location IDs. The data highlights clustering trends, where certain locations (e.g., high-demand areas like airports) correspond to higher average fares. The wide range of fare amounts at specific pickup locations suggests variability influenced by trip distance, time of day, or other factors.
 
-### Figure 3: Pair Plot of Selected Variables 
+#### Figure 3: Pair Plot of Selected Variables 
 ![Screenshot 2024-12-08 at 11 04 46 AM](https://github.com/user-attachments/assets/92d30e49-debc-4d47-bb3f-bf773adda1ec)
 
 This pair plot visualizes the relationships and distributions of selected variables, including trip_distance, fare_amount, PULocationID, DOLocationID, congestion_surcharge, and improvement_surcharge. It highlights patterns such as the positive relationship between trip_distance and fare_amount, as well as clustering in categorical features like PULocationID and DOLocationID. The diagonal plots show the distribution of each variable, while the off-diagonal scatter plots illustrate pairwise interactions, helping identify potential correlations and feature dependencies.
 
-### Figure 4: Correlation Heatmap of Numerical Features
+#### Figure 4: Correlation Heatmap of Numerical Features
 ![Screenshot 2024-12-08 at 10 27 33 AM](https://github.com/user-attachments/assets/7e3e09cd-7dac-4b18-8919-55c0450c904f)
 
 The heatmap provides a visual summary of the correlations among numerical features in the dataset. Notable relationships include a strong positive correlation between fare_amount and total_amount, indicating their dependency. Moderate correlations are also observed between trip_distance and fare-related variables, reflecting the role of distance in fare calculations. Other features, such as payment_type and VendorID, exhibit weaker or negligible correlations with fare-related attributes. This visualization helps identify the most influential features for modeling.
-
 
 ### Data Preprocessing
 
@@ -116,8 +108,18 @@ The Decision Tree Regressor was introduced to address non-linear relationships i
 
 ### Model 3: Random Forest Regressor
 
-To solve the problem of overfitting in Model 2, a Random Forest Regressor was introduced to improve generalization. By leveraging an ensemble approach, this model aimed to better capture non-linear relationships and variability within the dataset. The dataset was split into training and testing subsets using the same 80:20 ratio and random_state=151 as the previous models. Hyperparameter tuning was conducted using GridSearchCV on a 30% random sample of the training data, optimizing parameters such as n_estimators (number of trees in the forest), max_depth (maximum depth of each tree), min_samples_split (minimum samples required to split a node), and min_samples_leaf (minimum samples required in a leaf node). The best hyperparameters were identified using 3-fold cross-validation. These changes were made to reduce computational cost, since running this model took significantly longer due to the increased amount of possible hyperparameter combinations. The final model was then trained on the full training dataset using these optimized parameters. Performance was evaluated on both training and testing datasets using Mean Squared Error (MSE), providing insights into the model’s ability to generalize and predict effectively. This model exhibited the best performance of all our models by far in terms of both loss and accuracy, 
+To solve the problem of overfitting in Model 2, a Random Forest Regressor was introduced to improve generalization. By leveraging an ensemble approach, this model aimed to better capture non-linear relationships and variability within the dataset. The dataset was split into training and testing subsets using the same 80:20 ratio and random_state=151 as the previous models. Hyperparameter tuning was conducted using GridSearchCV on a 30% random sample of the training data, optimizing parameters such as n_estimators (number of trees in the forest), max_depth (maximum depth of each tree), min_samples_split (minimum samples required to split a node), and min_samples_leaf (minimum samples required in a leaf node). The best hyperparameters were identified using 3-fold cross-validation. These changes were made to reduce computational cost, since running this model took significantly longer due to the increased amount of possible hyperparameter combinations. The final model was then trained on the full training dataset using these optimized parameters. Performance was evaluated on both training and testing datasets using Mean Squared Error (MSE), providing insights into the model’s ability to generalize and predict effectively. This model exhibited the best performance of all our models by far in terms of both loss and accuracy, likely due to the amount of hyperparameter tuning performed. Althouugh it had slightly greater relative overfitting in comparison to the linear regression model, this was not especially concerning since it was a natural consequence of increased model complexity outweighed by vastly improved performance. While we recognized that conducting hyperparameter tuning on a smaller subset of the data risked overfitting to the subset, we observed no significant change when conducting hyperparameter tuning on ten percent of the dataset compared to thirty percent of the dataset, indicating that the effects of this are not too severe in comparison to the time cost of running such a complex function.
 
+### Fitting Graph
+
+<p align="center">
+  <br>
+  <img src="https://github.com/user-attachments/assets/12f1c8ca-df65-4d9a-8e19-7a42feff9e05" alt="fitting_graph"/>
+    <br>
+    <em>Approximate placement of our models on a fitting graph</em>
+</p>
+
+Above is a visualization of a fitting graph with the addition of where we believe our models would be placed. As our baseline model, the linear regression model is all the way on the left, befitting its low model complexity and high MSE. Our final model, the random forest, is more complex and exhibits far superior performance, so it lies significantly farther to the left, with the decision tree lying in between the two models as an intermediate step. Since we did not train any models with greater complexity than the random forest, the values of the loss curves continuing to the right of the random forest are projected values based on the theoretical concept of the fitting graph. We believe that our final model lies on the less-complex side of the ideal model complexity zone since its gap between training and testing MSE has not begun to increase compared to the decision tree. However, we do acknowledge that it is possible that if a more complex model was to produce a similar gap between its training and testing loss, our model would actually be outside of the zone of ideal model complexity; unfortunately, we did not have the opportunity to test this.
 
 ## Conclusion
 
